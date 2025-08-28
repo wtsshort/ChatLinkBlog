@@ -51,10 +51,16 @@ export class MemStorage implements IStorage {
     this.whatsappLinks.set('demo-1', {
       id: 'demo-1',
       title: 'مرحبا بك في خدماتنا',
-      message: 'أهلاً وسهلاً! أود الاستفسار عن خدماتكم',
       phoneNumber: '+966501234567',
+      message: 'أهلاً وسهلاً! أود الاستفسار عن خدماتكم',
+      generatedLink: 'https://wa.me/966501234567?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%20%D9%88%D8%B3%D9%87%D9%84%D8%A7%D9%8B%21%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85',
+      customSlug: null,
+      shortUrl: '/services',
       clickCount: 1547,
-      url: 'https://wa.me/966501234567?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%20%D9%88%D8%B3%D9%87%D9%84%D8%A7%D9%8B%21%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85',
+      expiresAt: null,
+      isProtected: false,
+      password: null,
+      tags: 'خدمات، استفسار',
       createdAt: new Date('2023-12-10'),
       updatedAt: new Date('2023-12-10'),
     });
@@ -62,10 +68,16 @@ export class MemStorage implements IStorage {
     this.whatsappLinks.set('demo-2', {
       id: 'demo-2',
       title: 'طلب عرض سعر',
-      message: 'السلام عليكم، أريد عرض سعر للمنتج',
       phoneNumber: '+966507654321',
+      message: 'السلام عليكم، أريد عرض سعر للمنتج',
+      generatedLink: 'https://wa.me/966507654321?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B9%D8%B1%D8%B6%20%D8%B3%D8%B9%D8%B1%20%D9%84%D9%84%D9%85%D9%86%D8%AA%D8%AC',
+      customSlug: 'quote',
+      shortUrl: '/quote',
       clickCount: 892,
-      url: 'https://wa.me/966507654321?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B9%D8%B1%D8%B6%20%D8%B3%D8%B9%D8%B1%20%D9%84%D9%84%D9%85%D9%86%D8%AA%D8%AC',
+      expiresAt: null,
+      isProtected: false,
+      password: null,
+      tags: 'مبيعات، عروض',
       createdAt: new Date('2023-12-08'),
       updatedAt: new Date('2023-12-08'),
     });
@@ -73,10 +85,16 @@ export class MemStorage implements IStorage {
     this.whatsappLinks.set('demo-3', {
       id: 'demo-3',
       title: 'دعم فني',
-      message: 'مرحبا، أحتاج مساعدة تقنية',
       phoneNumber: '+966502345678',
+      message: 'مرحبا، أحتاج مساعدة تقنية',
+      generatedLink: 'https://wa.me/966502345678?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9',
+      customSlug: null,
+      shortUrl: '/support',
       clickCount: 634,
-      url: 'https://wa.me/966502345678?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9',
+      expiresAt: null,
+      isProtected: false,
+      password: null,
+      tags: 'دعم، تقني',
       createdAt: new Date('2023-12-05'),
       updatedAt: new Date('2023-12-05'),
     });
@@ -158,13 +176,29 @@ export class MemStorage implements IStorage {
   // WhatsApp Links
   async createWhatsappLink(insertLink: InsertWhatsappLink): Promise<WhatsappLink> {
     const id = randomUUID();
+    
+    // إنشاء رابط مختصر
+    const shortUrl = insertLink.customSlug ? 
+      `/${insertLink.customSlug}` : 
+      `/s/${Math.random().toString(36).substring(2, 8)}`;
+    
     const link: WhatsappLink = {
-      ...insertLink,
       id,
+      title: insertLink.title || null,
+      phoneNumber: insertLink.phoneNumber,
       message: insertLink.message || null,
+      generatedLink: insertLink.generatedLink,
+      customSlug: insertLink.customSlug || null,
+      shortUrl,
       clickCount: 0,
+      expiresAt: insertLink.expiresAt || null,
+      isProtected: insertLink.isProtected || false,
+      password: insertLink.password || null,
+      tags: insertLink.tags || null,
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
+    
     this.whatsappLinks.set(id, link);
     return link;
   }

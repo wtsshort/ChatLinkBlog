@@ -144,14 +144,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // إنشاء بيانات SEO
       const seoData = await generateSEOData(article.content, language);
       
-      // إنشاء وصف للصورة وإنشاء الصورة
+      // إنشاء وصف للصورة وإنشاء الصورة الفعلية
       const imagePrompt = await generateImagePrompt(article.title, language);
+      const featuredImage = await generateArticleImage(imagePrompt, article.title);
+      
+      console.log(`Generated image for article: ${article.title}`);
+      console.log(`Image URL: ${featuredImage}`);
       
       // دمج البيانات
       const fullArticle = {
         ...article,
         ...seoData,
-        featuredImagePrompt: imagePrompt,
+        featuredImage, // الصورة الفعلية
+        featuredImagePrompt: imagePrompt, // وصف الصورة للمرجع
         language,
         author: 'AI Assistant',
         readingTime: Math.ceil(article.content.split(' ').length / 200) // تقدير زمن القراءة

@@ -22,16 +22,27 @@ export default function BlogCard({ post }: BlogCardProps) {
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow" data-testid={`blog-card-${post.slug}`}>
-      <div className="w-full h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <div className="w-8 h-8 bg-primary/40 rounded"></div>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            {language === 'ar' ? 'صورة المقال' : 'Article Image'}
-          </p>
+      {post.featuredImage ? (
+        <div className="w-full h-48 overflow-hidden">
+          <img 
+            src={post.featuredImage} 
+            alt={post.title}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
         </div>
-      </div>
+      ) : (
+        <div className="w-full h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+              <div className="w-8 h-8 bg-primary/40 rounded"></div>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {language === 'ar' ? 'صورة المقال' : 'Article Image'}
+            </p>
+          </div>
+        </div>
+      )}
       <CardContent className="p-6">
         <div className="flex items-center space-x-2 mb-3">
           <Badge variant="secondary" className="text-xs">

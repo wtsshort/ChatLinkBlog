@@ -39,6 +39,7 @@ const postSchema = z.object({
   ogTitle: z.string().optional(),
   ogDescription: z.string().optional(),
   focusKeyword: z.string().optional(),
+  featuredImage: z.string().optional(),
 });
 
 type PostFormData = z.infer<typeof postSchema>;
@@ -102,6 +103,7 @@ export default function AdminPanel() {
       ogTitle: "",
       ogDescription: "",
       focusKeyword: "",
+      featuredImage: "",
     },
   });
 
@@ -133,6 +135,7 @@ export default function AdminPanel() {
         ogTitle: (data.ogTitle || '').substring(0, 70),
         ogDescription: (data.ogDescription || '').substring(0, 160),
         focusKeyword: (data.focusKeyword || '').substring(0, 100),
+        featuredImage: data.featuredImage || '', // إضافة الصورة
       });
       setActiveTab("edit");
       toast({
@@ -173,6 +176,7 @@ export default function AdminPanel() {
         ogDescription: (data.ogDescription || '').substring(0, 160),
         ogTitle: (data.ogTitle || '').substring(0, 70),
         focusKeyword: (data.focusKeyword || '').substring(0, 100),
+        featuredImage: data.featuredImage || '', // التأكد من إرسال الصورة
       };
       
       const response = await apiRequest("POST", "/api/admin/blog-posts", postData, {

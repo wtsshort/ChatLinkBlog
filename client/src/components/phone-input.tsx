@@ -234,10 +234,10 @@ export function PhoneInput({
           onChange={handlePhoneChange}
           placeholder={placeholder || (language === 'ar' ? '501234567' : '1234567890')}
           className={cn(
-            "rounded-r-md rounded-l-none transition-enhanced",
-            language === 'ar' ? "rounded-l-md rounded-r-none pr-10" : "pl-10",
-            language === 'ar' ? "text-right" : "text-left"
+            "rounded-r-md rounded-l-none transition-enhanced text-left",
+            language === 'ar' ? "rounded-l-md rounded-r-none pr-10" : "pl-10"
           )}
+          dir="ltr"
           disabled={disabled}
           data-testid="phone-number-input"
         />

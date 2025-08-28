@@ -78,7 +78,7 @@ export const insertWhatsappLinkSchema = createInsertSchema(whatsappLinks).omit({
 }).extend({
   title: z.string().max(100).optional().or(z.literal("")),
   customSlug: z.string().max(50).optional().or(z.literal("")),
-  expiresAt: z.date().optional(),
+  expiresAt: z.date().optional().nullable(),
   isProtected: z.boolean().default(false),
   password: z.string().max(255).optional().or(z.literal("")),
   tags: z.string().optional().or(z.literal("")),

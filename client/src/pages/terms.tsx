@@ -191,7 +191,7 @@ export default function TermsPage() {
                   <Card id="section-5">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
-                        <AlertTriangle className="h-5 w-5 text-orange-500" />
+                        <AlertTriangle className="h-5 w-5 text-emerald-500" />
                         5. إخلاء المسؤولية
                       </CardTitle>
                     </CardHeader>
@@ -207,7 +207,7 @@ export default function TermsPage() {
                           'أي أضرار مباشرة أو غير مباشرة'
                         ].map((item, index) => (
                           <div key={index} className="flex items-center gap-2">
-                            <AlertTriangle className="h-4 w-4 text-orange-500 flex-shrink-0" />
+                            <AlertTriangle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                             <span className="text-sm text-muted-foreground">{item}</span>
                           </div>
                         ))}

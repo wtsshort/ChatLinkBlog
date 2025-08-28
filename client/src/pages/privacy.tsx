@@ -205,9 +205,9 @@ export default function PrivacyPage() {
                         <h5 className="font-medium text-red-900 dark:text-red-100 mb-2">🔐 التشفير</h5>
                         <p className="text-sm text-red-700 dark:text-red-300">جميع البيانات مشفرة أثناء النقل والتخزين</p>
                       </div>
-                      <div className="p-4 bg-orange-50 dark:bg-orange-950/20 rounded border border-orange-200 dark:border-orange-800">
-                        <h5 className="font-medium text-orange-900 dark:text-orange-100 mb-2">🛡️ الحماية</h5>
-                        <p className="text-sm text-orange-700 dark:text-orange-300">حماية من الهجمات والوصول غير المصرح</p>
+                      <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded border border-emerald-200 dark:border-emerald-800">
+                        <h5 className="font-medium text-emerald-900 dark:text-emerald-100 mb-2">🛡️ الحماية</h5>
+                        <p className="text-sm text-emerald-700 dark:text-emerald-300">حماية من الهجمات والوصول غير المصرح</p>
                       </div>
                     </div>
                   </CardContent>
@@ -468,9 +468,9 @@ export default function PrivacyPage() {
                         <h5 className="font-medium text-red-900 dark:text-red-100 mb-2">🔐 Encryption</h5>
                         <p className="text-sm text-red-700 dark:text-red-300">All data encrypted in transit and at rest</p>
                       </div>
-                      <div className="p-4 bg-orange-50 dark:bg-orange-950/20 rounded border border-orange-200 dark:border-orange-800">
-                        <h5 className="font-medium text-orange-900 dark:text-orange-100 mb-2">🛡️ Protection</h5>
-                        <p className="text-sm text-orange-700 dark:text-orange-300">Protection from attacks and unauthorized access</p>
+                      <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded border border-emerald-200 dark:border-emerald-800">
+                        <h5 className="font-medium text-emerald-900 dark:text-emerald-100 mb-2">🛡️ Protection</h5>
+                        <p className="text-sm text-emerald-700 dark:text-emerald-300">Protection from attacks and unauthorized access</p>
                       </div>
                     </div>
                   </CardContent>

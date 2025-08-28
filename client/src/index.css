@@ -26,8 +26,8 @@
   --muted-foreground: hsl(215, 16%, 45%);
   
   /* Interactive accent colors */
-  --accent: hsl(25, 95%, 53%);
-  --accent-hover: hsl(25, 95%, 48%);
+  --accent: hsl(158, 85%, 45%);
+  --accent-hover: hsl(158, 85%, 40%);
   --accent-foreground: hsl(0, 0%, 100%);
   
   /* Status colors */
@@ -43,14 +43,14 @@
   
   /* Chart colors with more variety */
   --chart-1: hsl(142, 85%, 40%);
-  --chart-2: hsl(25, 95%, 53%);
+  --chart-2: hsl(158, 85%, 45%);
   --chart-3: hsl(270, 95%, 65%);
   --chart-4: hsl(195, 95%, 55%);
   --chart-5: hsl(345, 85%, 60%);
   
   /* Gradient definitions */
   --gradient-primary: linear-gradient(135deg, hsl(142, 85%, 40%) 0%, hsl(158, 85%, 45%) 100%);
-  --gradient-accent: linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(45, 95%, 58%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(158, 85%, 45%) 0%, hsl(174, 85%, 50%) 100%);
   --gradient-purple: linear-gradient(135deg, hsl(270, 95%, 65%) 0%, hsl(290, 95%, 70%) 100%);
   --gradient-blue: linear-gradient(135deg, hsl(195, 95%, 55%) 0%, hsl(220, 95%, 60%) 100%);
   
@@ -62,7 +62,7 @@
   --sidebar-foreground: hsl(220, 50%, 8%);
   --sidebar-primary: hsl(142, 85%, 40%);
   --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-accent: hsl(25, 95%, 53%);
+  --sidebar-accent: hsl(158, 85%, 45%);
   --sidebar-accent-foreground: hsl(0, 0%, 100%);
   --sidebar-border: hsl(214, 32%, 88%);
   --sidebar-ring: hsl(142, 85%, 40%);

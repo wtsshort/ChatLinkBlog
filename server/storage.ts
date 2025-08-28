@@ -12,6 +12,7 @@ export interface IStorage {
   // WhatsApp Links
   createWhatsappLink(link: InsertWhatsappLink): Promise<WhatsappLink>;
   getWhatsappLink(id: string): Promise<WhatsappLink | undefined>;
+  getWhatsappLinkBySlug(slug: string): Promise<WhatsappLink | undefined>;
   getAllWhatsappLinks(): Promise<WhatsappLink[]>;
   incrementClickCount(id: string): Promise<void>;
   deleteWhatsappLink(id: string): Promise<void>;
@@ -177,10 +178,29 @@ export class MemStorage implements IStorage {
   async createWhatsappLink(insertLink: InsertWhatsappLink): Promise<WhatsappLink> {
     const id = randomUUID();
     
-    // إنشاء رابط مختصر
-    const shortUrl = insertLink.customSlug ? 
-      `/${insertLink.customSlug}` : 
-      `/s/${Math.random().toString(36).substring(2, 8)}`;
+    // إنشاء slug قصير فريد
+    const generateShortSlug = () => {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    };
+
+    let shortSlug = insertLink.customSlug || generateShortSlug();
+    
+    // التأكد من أن الslug فريد
+    const existingLinks = Array.from(this.whatsappLinks.values());
+    while (existingLinks.some(link => link.customSlug === shortSlug)) {
+      shortSlug = generateShortSlug();
+    }
+
+    // إنشاء الرابط المختصر بدومين الموقع
+    const baseUrl = process.env.REPLIT_DOMAINS ? 
+      `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+      'https://wtsshort.com';
+    const shortUrl = `${baseUrl}/s/${shortSlug}`;
     
     const link: WhatsappLink = {
       id,
@@ -188,7 +208,7 @@ export class MemStorage implements IStorage {
       phoneNumber: insertLink.phoneNumber,
       message: insertLink.message || null,
       generatedLink: insertLink.generatedLink,
-      customSlug: insertLink.customSlug || null,
+      customSlug: shortSlug,
       shortUrl,
       clickCount: 0,
       expiresAt: insertLink.expiresAt || null,
@@ -205,6 +225,10 @@ export class MemStorage implements IStorage {
 
   async getWhatsappLink(id: string): Promise<WhatsappLink | undefined> {
     return this.whatsappLinks.get(id);
+  }
+
+  async getWhatsappLinkBySlug(slug: string): Promise<WhatsappLink | undefined> {
+    return Array.from(this.whatsappLinks.values()).find(link => link.customSlug === slug);
   }
 
   async getAllWhatsappLinks(): Promise<WhatsappLink[]> {

@@ -12,7 +12,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { apiRequest } from "@/lib/queryClient";
 import { generateWhatsAppLink, validatePhoneNumber } from "@/lib/whatsapp";
-import { Link, Copy, Share, Phone } from "lucide-react";
+import { Link, Copy, Share } from "lucide-react";
+import { PhoneInput } from "@/components/phone-input";
 
 const formSchema = z.object({
   phoneNumber: z.string().min(1, "Phone number is required").refine(validatePhoneNumber, "Invalid phone number format"),
@@ -118,20 +119,16 @@ export default function WhatsAppGenerator() {
                   <FormItem>
                     <FormLabel>{language === 'ar' ? 'رقم الهاتف' : 'Phone Number'}</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Phone className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <Input
-                          placeholder={language === 'ar' ? '+966501234567' : '+1234567890'}
-                          {...field}
-                          className="pl-10"
-                          data-testid="phone-input"
-                        />
-                      </div>
+                      <PhoneInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        language={language}
+                        placeholder={language === 'ar' ? '501234567' : '1234567890'}
+                        data-testid="phone-input"
+                      />
                     </FormControl>
                     <FormDescription>
-                      {language === 'ar' ? 'تضمين رمز البلد (مثل +966، +971، +1)' : 'Include country code (e.g., +1, +44, +966)'}
+                      {language === 'ar' ? 'اختر الدولة وأدخل رقم الهاتف بدون رمز الدولة' : 'Select country and enter phone number without country code'}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

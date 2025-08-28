@@ -47,6 +47,40 @@ export class MemStorage implements IStorage {
   }
 
   private initializeSampleData() {
+    // إضافة بعض الروابط التجريبية بأرقام واقعية
+    this.whatsappLinks.set('demo-1', {
+      id: 'demo-1',
+      title: 'مرحبا بك في خدماتنا',
+      message: 'أهلاً وسهلاً! أود الاستفسار عن خدماتكم',
+      phoneNumber: '+966501234567',
+      clickCount: 1547,
+      url: 'https://wa.me/966501234567?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%20%D9%88%D8%B3%D9%87%D9%84%D8%A7%D9%8B%21%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85',
+      createdAt: new Date('2023-12-10'),
+      updatedAt: new Date('2023-12-10'),
+    });
+
+    this.whatsappLinks.set('demo-2', {
+      id: 'demo-2',
+      title: 'طلب عرض سعر',
+      message: 'السلام عليكم، أريد عرض سعر للمنتج',
+      phoneNumber: '+966507654321',
+      clickCount: 892,
+      url: 'https://wa.me/966507654321?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B9%D8%B1%D8%B6%20%D8%B3%D8%B9%D8%B1%20%D9%84%D9%84%D9%85%D9%86%D8%AA%D8%AC',
+      createdAt: new Date('2023-12-08'),
+      updatedAt: new Date('2023-12-08'),
+    });
+
+    this.whatsappLinks.set('demo-3', {
+      id: 'demo-3',
+      title: 'دعم فني',
+      message: 'مرحبا، أحتاج مساعدة تقنية',
+      phoneNumber: '+966502345678',
+      clickCount: 634,
+      url: 'https://wa.me/966502345678?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9',
+      createdAt: new Date('2023-12-05'),
+      updatedAt: new Date('2023-12-05'),
+    });
+
     const samplePosts: BlogPost[] = [
       {
         id: randomUUID(),
@@ -57,7 +91,7 @@ export class MemStorage implements IStorage {
         author: "سارة أحمد",
         category: "تسويق واتساب",
         status: "published",
-        views: 1234,
+        views: 15847,
         featuredImage: null,
         metaTitle: "10 استراتيجيات تسويق واتساب فعالة لزيادة المبيعات",
         metaDescription: "تعلم أفضل 10 استراتيجيات لتسويق واتساب تساعدك على زيادة التفاعل والمبيعات",
@@ -79,7 +113,7 @@ export class MemStorage implements IStorage {
         author: "محمد علي",
         category: "نصائح الأعمال",
         status: "published",
-        views: 856,
+        views: 8923,
         featuredImage: null,
         metaTitle: "أتمتة خدمة العملاء عبر واتساب - دليل شامل",
         metaDescription: "تعلم كيفية أتمتة خدمة العملاء عبر واتساب لتحسين الكفاءة وتوفير الوقت",
@@ -101,7 +135,7 @@ export class MemStorage implements IStorage {
         author: "أحمد محمد",
         category: "التحليلات",
         status: "published",
-        views: 492,
+        views: 12456,
         featuredImage: null,
         metaTitle: "قياس عائد الاستثمار في تسويق واتساب - المقاييس الرئيسية",
         metaDescription: "تعلم كيفية قياس عائد الاستثمار في تسويق واتساب والمقاييس المهمة للنجاح",

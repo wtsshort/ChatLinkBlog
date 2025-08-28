@@ -17,7 +17,6 @@ import BlogPost from "@/pages/blog-post";
 import Analytics from "@/pages/analytics";
 import FAQ from "@/pages/faq";
 import Terms from "@/pages/terms";
-import Pricing from "@/pages/pricing";
 import Solutions from "@/pages/solutions";
 
 function Router() {
@@ -26,7 +25,6 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
-      <Route path="/pricing" component={Pricing} />
       <Route path="/solutions" component={Solutions} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/admin-login" component={AdminLogin} />

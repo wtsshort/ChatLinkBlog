@@ -36,6 +36,9 @@ const postSchema = z.object({
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   keywords: z.string().optional(),
+  ogTitle: z.string().optional(),
+  ogDescription: z.string().optional(),
+  focusKeyword: z.string().optional(),
 });
 
 type PostFormData = z.infer<typeof postSchema>;
@@ -58,7 +61,7 @@ export default function AdminPanel() {
     }
     
     // التحقق من صحة التوكن
-    apiRequest('GET', '/api/admin/check', null, {
+    apiRequest('GET', '/api/admin/check', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -96,6 +99,9 @@ export default function AdminPanel() {
       metaTitle: "",
       metaDescription: "",
       keywords: "",
+      ogTitle: "",
+      ogDescription: "",
+      focusKeyword: "",
     },
   });
 
@@ -116,14 +122,17 @@ export default function AdminPanel() {
       setGeneratedArticle(data);
       // ملء النموذج بالبيانات المُولدة
       postForm.reset({
-        title: data.title,
-        content: data.content,
-        excerpt: data.excerpt,
+        title: data.title || '',
+        content: data.content || '',
+        excerpt: data.excerpt || '',
         category: data.category || 'مقالات عامة',
         status: 'draft',
-        metaTitle: data.metaTitle || '',
-        metaDescription: data.metaDescription || '',
+        metaTitle: (data.metaTitle || '').substring(0, 70),
+        metaDescription: (data.metaDescription || '').substring(0, 160),
         keywords: Array.isArray(data.keywords) ? data.keywords.join(', ') : (data.keywords || ''),
+        ogTitle: (data.ogTitle || '').substring(0, 70),
+        ogDescription: (data.ogDescription || '').substring(0, 160),
+        focusKeyword: (data.focusKeyword || '').substring(0, 100),
       });
       setActiveTab("edit");
       toast({
@@ -143,11 +152,30 @@ export default function AdminPanel() {
   const savePostMutation = useMutation({
     mutationFn: async (data: PostFormData) => {
       const token = localStorage.getItem('admin_token');
-      const response = await apiRequest("POST", "/api/admin/blog-posts", {
+      
+      // إنشاء slug من العنوان إذا لم يكن موجوداً
+      const slug = data.title
+        .toLowerCase()
+        .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim() || `article-${Date.now()}`;
+      
+      const postData = {
         ...data,
-        language: articleForm.getValues().language,
+        slug,
+        language: language || 'ar',
         author: 'مدير الموقع',
-      }, {
+        readingTime: Math.ceil((data.content?.split(' ').length || 0) / 200),
+        // تنظيف الحقول الفارغة والطويلة
+        metaDescription: (data.metaDescription || '').substring(0, 160),
+        metaTitle: (data.metaTitle || '').substring(0, 70),
+        ogDescription: (data.ogDescription || '').substring(0, 160),
+        ogTitle: (data.ogTitle || '').substring(0, 70),
+        focusKeyword: (data.focusKeyword || '').substring(0, 100),
+      };
+      
+      const response = await apiRequest("POST", "/api/admin/blog-posts", postData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.json();
@@ -481,7 +509,7 @@ export default function AdminPanel() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {posts?.length > 0 ? posts.map((post) => (
+                  {posts && posts.length > 0 ? posts.map((post) => (
                     <Card key={post.id} className="hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between">

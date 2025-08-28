@@ -47,19 +47,24 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
   createdAt: true,
   updatedAt: true,
 }).extend({
+  // تحديد الحقول المطلوبة والاختيارية بوضوح
+  title: z.string().min(1, "Title is required").max(255),
+  slug: z.string().min(1, "Slug is required").max(255),
+  content: z.string().min(1, "Content is required"),
+  status: z.string().default("draft"),
+  language: z.string().default("ar"),
+  readingTime: z.number().default(0),
   // جعل جميع حقول SEO اختيارية مع حدود مناسبة
-  metaTitle: z.string().max(70).optional(),
-  metaDescription: z.string().max(160).optional(),
-  keywords: z.string().optional(),
-  ogTitle: z.string().max(70).optional(),
-  ogDescription: z.string().max(160).optional(),
-  focusKeyword: z.string().max(100).optional(),
-  author: z.string().max(100).optional(),
-  category: z.string().max(50).optional(),
-  excerpt: z.string().optional(),
-  featuredImage: z.string().optional(),
-  readingTime: z.number().optional(),
-  language: z.string().max(5).optional(),
+  metaTitle: z.string().max(70).optional().or(z.literal("")),
+  metaDescription: z.string().max(160).optional().or(z.literal("")),
+  keywords: z.string().optional().or(z.literal("")),
+  ogTitle: z.string().max(70).optional().or(z.literal("")),
+  ogDescription: z.string().max(160).optional().or(z.literal("")),
+  focusKeyword: z.string().max(100).optional().or(z.literal("")),
+  author: z.string().max(100).optional().or(z.literal("")),
+  category: z.string().max(50).optional().or(z.literal("")),
+  excerpt: z.string().optional().or(z.literal("")),
+  featuredImage: z.string().optional().or(z.literal("")),
 });
 
 export type InsertWhatsappLink = z.infer<typeof insertWhatsappLinkSchema>;

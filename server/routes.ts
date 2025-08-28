@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertWhatsappLinkSchema, insertBlogPostSchema } from "@shared/schema";
-import { generateArticle, generateSEOData, generateImagePrompt, generateArticleImage } from "./ai";
+import { generateArticle, generateSEOData, generateImagePrompt, generateArticleImage, getRandomTrendingTopic } from "./ai";
 import { requireAuth, loginAdmin, logoutAdmin, checkAuth } from "./auth";
 import { z } from "zod";
 
@@ -130,6 +130,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/admin/check", checkAuth);
 
   // AI Article Generation Routes
+  
+  // الحصول على موضوع ترندي عشوائي
+  app.get("/api/admin/trending-topic", requireAuth, async (req, res) => {
+    try {
+      const topic = getRandomTrendingTopic();
+      res.json({ topic });
+    } catch (error: any) {
+      console.error("Error getting trending topic:", error);
+      res.status(500).json({ message: "Failed to get trending topic" });
+    }
+  });
+  
   app.post("/api/admin/generate-article", requireAuth, async (req, res) => {
     try {
       const { topic, language = 'ar' } = req.body;

@@ -169,7 +169,7 @@ export default function FAQPage() {
             }
           </p>
           <button 
-            onClick={() => window.open('https://wa.me/966501234567?text=مرحباً، لدي سؤال حول WTSSHORT', '_blank')}
+            onClick={() => window.open('https://wa.me/966590965110?text=مرحباً، لدي سؤال حول WTSSHORT', '_blank')}
             className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
             data-testid="contact-support"
           >

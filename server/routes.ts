@@ -158,9 +158,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(fullArticle);
       
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error generating article:", error);
-      res.status(500).json({ message: "Failed to generate article" });
+      const message = error.message || (language === 'ar' ? "فشل في إنشاء المقال" : "Failed to generate article");
+      res.status(500).json({ message });
     }
   });
 

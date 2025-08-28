@@ -294,7 +294,7 @@ export default function WhatsAppGenerator() {
                     <BarChart3 className="h-4 w-4" />
                     {language === 'ar' ? 'التحليلات' : 'Analytics'}
                   </TabsTrigger>
-                  <TabsTrigger value="sharing" className="flex items-center gap-2 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover-lift">
+                  <TabsTrigger value="sharing" className="flex items-center gap-2 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover-lift">
                     <Share className="h-4 w-4" />
                     {language === 'ar' ? 'المشاركة' : 'Sharing'}
                   </TabsTrigger>

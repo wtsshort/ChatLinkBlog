@@ -83,7 +83,7 @@ export default function Solutions() {
         language === 'ar' ? 'تتبع الطلبات' : 'Order tracking',
         language === 'ar' ? 'تقييمات العملاء' : 'Customer reviews'
       ],
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-amber-500 to-yellow-600',
       stats: { 
         increase: '180%', 
         metric: language === 'ar' ? 'زيادة الطلبات' : 'order increase' 

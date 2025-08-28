@@ -5,11 +5,19 @@ import { z } from "zod";
 
 export const whatsappLinks = pgTable("whatsapp_links", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: varchar("title", { length: 100 }),
   phoneNumber: varchar("phone_number", { length: 20 }).notNull(),
   message: text("message"),
   generatedLink: text("generated_link").notNull(),
+  customSlug: varchar("custom_slug", { length: 50 }).unique(),
+  shortUrl: varchar("short_url", { length: 100 }),
   clickCount: integer("click_count").default(0),
+  expiresAt: timestamp("expires_at"),
+  isProtected: boolean("is_protected").default(false),
+  password: varchar("password", { length: 255 }),
+  tags: text("tags"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const blogPosts = pgTable("blog_posts", {
@@ -35,10 +43,57 @@ export const blogPosts = pgTable("blog_posts", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// جدول قوالب الرسائل
+export const messageTemplates = pgTable("message_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name", { length: 100 }).notNull(),
+  content: text("content").notNull(),
+  category: varchar("category", { length: 50 }),
+  language: varchar("language", { length: 5 }).default("ar"),
+  isDefault: boolean("is_default").default(false),
+  usageCount: integer("usage_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// جدول تتبع النقرات المتقدم
+export const linkClicks = pgTable("link_clicks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  linkId: varchar("link_id").references(() => whatsappLinks.id),
+  userAgent: text("user_agent"),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  country: varchar("country", { length: 50 }),
+  city: varchar("city", { length: 100 }),
+  deviceType: varchar("device_type", { length: 20 }),
+  referer: text("referer"),
+  clickedAt: timestamp("clicked_at").defaultNow(),
+});
+
 export const insertWhatsappLinkSchema = createInsertSchema(whatsappLinks).omit({
   id: true,
   clickCount: true,
   createdAt: true,
+  updatedAt: true,
+  shortUrl: true,
+}).extend({
+  title: z.string().max(100).optional().or(z.literal("")),
+  customSlug: z.string().max(50).optional().or(z.literal("")),
+  expiresAt: z.date().optional(),
+  isProtected: z.boolean().default(false),
+  password: z.string().max(255).optional().or(z.literal("")),
+  tags: z.string().optional().or(z.literal("")),
+});
+
+export const insertMessageTemplateSchema = createInsertSchema(messageTemplates).omit({
+  id: true,
+  usageCount: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLinkClickSchema = createInsertSchema(linkClicks).omit({
+  id: true,
+  clickedAt: true,
 });
 
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
@@ -72,3 +127,9 @@ export type WhatsappLink = typeof whatsappLinks.$inferSelect;
 
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type BlogPost = typeof blogPosts.$inferSelect;
+
+export type InsertMessageTemplate = z.infer<typeof insertMessageTemplateSchema>;
+export type MessageTemplate = typeof messageTemplates.$inferSelect;
+
+export type InsertLinkClick = z.infer<typeof insertLinkClickSchema>;
+export type LinkClick = typeof linkClicks.$inferSelect;

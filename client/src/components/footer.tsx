@@ -113,8 +113,8 @@ export default function Footer() {
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm">
             {language === 'ar' 
-              ? '© 2023 WTSSHORT. جميع الحقوق محفوظة.'
-              : '© 2023 WTSSHORT. All rights reserved.'
+              ? '© 2025 WTSSHORT. جميع الحقوق محفوظة.'
+              : '© 2025 WTSSHORT. All rights reserved.'
             }
           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">

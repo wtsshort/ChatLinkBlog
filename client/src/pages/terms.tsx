@@ -28,8 +28,8 @@ export default function TermsPage() {
           </h1>
           <p className="text-lg text-muted-foreground">
             {language === 'ar' 
-              ? 'آخر تحديث: ديسمبر 2023'
-              : 'Last updated: December 2023'
+              ? 'آخر تحديث: ديسمبر 2025'
+              : 'Last updated: December 2025'
             }
           </p>
         </div>

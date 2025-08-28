@@ -234,19 +234,6 @@ export default function WhatsAppGenerator() {
                 )}
               />
 
-              {/* Enhanced Google reCAPTCHA placeholder */}
-              <div className="flex justify-center my-8">
-                <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center justify-center gap-3 text-slate-600 dark:text-slate-400">
-                    <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-red-500 rounded-lg flex items-center justify-center">
-                      <Shield className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-base font-medium">
-                      {language === 'ar' ? 'التحقق الأمني - Google reCAPTCHA' : 'Google reCAPTCHA Security Verification'}
-                    </span>
-                  </div>
-                </div>
-              </div>
 
               <Button 
                 type="submit" 

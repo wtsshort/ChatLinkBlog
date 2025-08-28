@@ -12,12 +12,26 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { apiRequest } from "@/lib/queryClient";
 import { generateWhatsAppLink, validatePhoneNumber } from "@/lib/whatsapp";
-import { Link, Copy, Share } from "lucide-react";
+import { Link, Copy, Share, MessageSquare, Calendar, Shield, Tag } from "lucide-react";
 import { PhoneInput } from "@/components/phone-input";
+import { QRCodeGenerator } from "@/components/qr-code-generator";
+import { MessageTemplates } from "@/components/message-templates";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
+import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const formSchema = z.object({
+  title: z.string().optional(),
   phoneNumber: z.string().min(1, "Phone number is required").refine(validatePhoneNumber, "Invalid phone number format"),
   message: z.string().optional(),
+  customSlug: z.string().optional(),
+  expiresAt: z.date().optional(),
+  isProtected: z.boolean().default(false),
+  password: z.string().optional(),
+  tags: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -32,8 +46,14 @@ export default function WhatsAppGenerator() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      title: "",
       phoneNumber: "",
       message: "",
+      customSlug: "",
+      expiresAt: undefined,
+      isProtected: false,
+      password: "",
+      tags: "",
     },
   });
 
@@ -41,9 +61,15 @@ export default function WhatsAppGenerator() {
     mutationFn: async (data: FormData) => {
       const link = generateWhatsAppLink(data.phoneNumber, data.message);
       const response = await apiRequest("POST", "/api/whatsapp-links", {
+        title: data.title || "",
         phoneNumber: data.phoneNumber,
         message: data.message || "",
         generatedLink: link,
+        customSlug: data.customSlug || "",
+        expiresAt: data.expiresAt || null,
+        isProtected: data.isProtected || false,
+        password: data.password || "",
+        tags: data.tags || "",
       });
       return response.json();
     },
@@ -90,7 +116,8 @@ export default function WhatsAppGenerator() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'WhatsApp Link',
+          title: form.getValues("title") || (language === 'ar' ? 'رابط واتساب' : 'WhatsApp Link'),
+          text: form.getValues("message") || (language === 'ar' ? 'تحقق من هذا الرابط' : 'Check out this link'),
           url: generatedLink,
         });
       } catch (err) {
@@ -99,6 +126,14 @@ export default function WhatsAppGenerator() {
     } else {
       copyToClipboard();
     }
+  };
+
+  const handleTemplateSelect = (template: string) => {
+    form.setValue("message", template);
+    toast({
+      title: language === 'ar' ? 'تم التطبيق' : 'Applied',
+      description: language === 'ar' ? 'تم تطبيق القالب على الرسالة' : 'Template applied to message',
+    });
   };
 
   return (

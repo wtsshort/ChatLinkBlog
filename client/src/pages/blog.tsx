@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/hooks/use-language";
 import BlogCard from "@/components/blog-card";
@@ -14,6 +14,8 @@ export default function Blog() {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
 
   const { data: posts, isLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/blog-posts'],
@@ -28,6 +30,16 @@ export default function Blog() {
     
     return matchesSearch && matchesCategory && post.status === 'published';
   }) || [];
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + postsPerPage);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory]);
 
   const categories = Array.from(new Set(posts?.map(post => post.category).filter(Boolean))) || [];
 
@@ -182,26 +194,57 @@ export default function Blog() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {filteredPosts.map((post) => (
+          {paginatedPosts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
         </div>
       )}
 
       {/* Pagination */}
-      {!isLoading && filteredPosts.length > 0 && (
-        <div className="flex justify-center mb-16">
-          <nav className="flex items-center space-x-2">
-            <Button variant="outline" disabled>
-              {language === 'ar' ? 'السابق' : 'Previous'}
-            </Button>
-            <Button className="bg-primary text-primary-foreground">1</Button>
-            <Button variant="outline">2</Button>
-            <Button variant="outline">3</Button>
-            <Button variant="outline">
-              {language === 'ar' ? 'التالي' : 'Next'}
-            </Button>
-          </nav>
+      {!isLoading && filteredPosts.length > postsPerPage && (
+        <div className="flex justify-center items-center gap-2 mb-16">
+          <Button 
+            variant="outline" 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            data-testid="prev-page"
+          >
+            {language === 'ar' ? 'السابق' : 'Previous'}
+          </Button>
+          
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+              if (
+                pageNum === 1 ||
+                pageNum === totalPages ||
+                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+              ) {
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className="w-10 h-10"
+                    data-testid={`page-${pageNum}`}
+                  >
+                    {pageNum}
+                  </Button>
+                );
+              } else if (pageNum === currentPage - 2 || pageNum === currentPage + 2) {
+                return <span key={pageNum} className="px-2 text-muted-foreground">...</span>;
+              }
+              return null;
+            })}
+          </div>
+
+          <Button 
+            variant="outline" 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            data-testid="next-page"
+          >
+            {language === 'ar' ? 'التالي' : 'Next'}
+          </Button>
         </div>
       )}
 

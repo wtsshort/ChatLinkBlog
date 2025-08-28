@@ -44,7 +44,7 @@ export default function Home() {
               {language === 'ar' ? '🚀 منصة الجيل الجديد' : '🚀 Next-Gen Platform'}
             </Badge>
             
-            <h1 className="text-5xl md:text-7xl font-black gradient-text mb-8 leading-tight">
+            <h1 className={`text-5xl md:text-7xl font-black gradient-text mb-8 leading-tight ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
               {language === 'ar' ? 'ثورة في' : 'Revolutionize'}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500">
                 {language === 'ar' ? 'التواصل' : 'Communication'}
@@ -53,19 +53,19 @@ export default function Home() {
               {language === 'ar' ? 'عبر واتساب' : 'via WhatsApp'}
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className={`text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
               {language === 'ar' 
                 ? 'منصة شاملة ومجانية لإنشاء وإدارة وتحليل روابط واتساب الاحترافية. مصممة للجميع لتسهيل التواصل الرقمي.'
                 : 'The complete FREE platform for creating, managing, and analyzing professional WhatsApp links. Built for everyone to simplify digital communication.'
               }
             </p>
 
-            <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-6 mb-12 border border-green-200 dark:border-green-800">
+            <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-6 mb-12 border border-green-200 dark:border-green-800" dir={language === 'ar' ? 'rtl' : 'ltr'}>
               <div className="flex items-center justify-center gap-3">
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                   <CheckCircle className="h-5 w-5 text-white" />
                 </div>
-                <p className="text-lg font-semibold text-green-800 dark:text-green-200">
+                <p className={`text-lg font-semibold text-green-800 dark:text-green-200 ${language === 'ar' ? 'font-cairo' : ''}`}>
                   {language === 'ar' 
                     ? '🎉 مجاني بالكامل! جميع الميزات متاحة للجميع بدون أي تكلفة'
                     : '🎉 Completely Free! All features available to everyone at no cost'

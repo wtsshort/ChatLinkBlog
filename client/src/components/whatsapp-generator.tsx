@@ -137,7 +137,7 @@ export default function WhatsAppGenerator() {
   };
 
   return (
-    <div className={`max-w-3xl mx-auto ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <div className={`max-w-3xl mx-auto ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <Card className="card-interactive hover-lift shadow-2xl border-0 bg-gradient-to-br from-white via-white to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-green-900/20 backdrop-blur-sm transition-all duration-700 hover:scale-[1.02] overflow-hidden">
         {/* Decorative background patterns */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-blue-500/5 pointer-events-none"></div>
@@ -151,10 +151,10 @@ export default function WhatsAppGenerator() {
               <MessageSquare className="h-10 w-10 text-white drop-shadow-sm" />
             </div>
             
-            <CardTitle className="text-4xl md:text-5xl font-black text-center mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent leading-tight">
+            <CardTitle className={`text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent leading-tight ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`}>
               {language === 'ar' ? 'أنشئ رابط واتساب مميز' : 'Create Your WhatsApp Link'}
             </CardTitle>
-            <p className="text-center text-muted-foreground text-lg font-medium max-w-lg mx-auto leading-relaxed">
+            <p className={`text-muted-foreground text-lg font-medium max-w-lg mx-auto leading-relaxed ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`}>
               {language === 'ar' ? 'أسرع وأسهل طريقة لإنشاء روابط واتساب احترافية مجانية' : 'The fastest way to create professional WhatsApp links for free'}
             </p>
             

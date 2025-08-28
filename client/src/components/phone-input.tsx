@@ -144,20 +144,23 @@ export function PhoneInput({
             role="combobox"
             aria-expanded={open}
             className={cn(
-              "justify-between rounded-l-md rounded-r-none border-r-0 px-3 transition-enhanced",
+              "justify-between rounded-l-md rounded-r-none border-r-0 px-3 transition-enhanced hover-lift min-w-[110px]",
               language === 'ar' ? "rounded-r-md rounded-l-none border-l-0" : ""
             )}
             disabled={disabled}
             data-testid="country-selector"
           >
             <div className="flex items-center gap-2">
-              <span className="text-lg">{selectedCountry.flag}</span>
-              <span className="text-sm font-medium">{selectedCountry.dialCode}</span>
+              <div className="relative">
+                <span className="text-xl drop-shadow-sm">{selectedCountry.flag}</span>
+                <div className="absolute -inset-1 bg-white/20 rounded-full blur-sm -z-10"></div>
+              </div>
+              <span className="text-sm font-medium text-foreground">{selectedCountry.dialCode}</span>
             </div>
-            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-0" align="start">
+        <PopoverContent className="w-[320px] p-0" align="start">
           <Command>
             <CommandInput 
               placeholder={language === 'ar' ? 'ابحث عن دولة...' : 'Search country...'} 
@@ -165,17 +168,25 @@ export function PhoneInput({
             <CommandEmpty>
               {language === 'ar' ? 'لم يتم العثور على دولة.' : 'No country found.'}
             </CommandEmpty>
-            <CommandGroup className="max-h-[200px] overflow-auto">
+            <CommandGroup className="max-h-[250px] overflow-auto">
               {COUNTRIES.map((country) => (
                 <CommandItem
                   key={country.code}
                   value={`${country.name} ${country.dialCode}`}
                   onSelect={() => handleCountrySelect(country)}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors"
+                  className="flex items-center gap-3 cursor-pointer hover:bg-muted transition-colors py-2"
                 >
-                  <span className="text-lg">{country.flag}</span>
-                  <span className="font-medium">{country.dialCode}</span>
-                  <span className="text-sm text-muted-foreground">{country.name}</span>
+                  <div className="relative flex-shrink-0">
+                    <span className="text-xl drop-shadow-sm">{country.flag}</span>
+                    <div className="absolute -inset-1 bg-white/10 rounded-full blur-sm -z-10"></div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <span className="font-medium text-primary">{country.dialCode}</span>
+                    <span className="text-sm text-muted-foreground truncate">{country.name}</span>
+                  </div>
+                  {selectedCountry.code === country.code && (
+                    <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full"></div>
+                  )}
                 </CommandItem>
               ))}
             </CommandGroup>

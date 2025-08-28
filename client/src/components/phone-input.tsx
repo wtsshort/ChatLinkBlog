@@ -17,60 +17,63 @@ interface Country {
   dialCode: string;
 }
 
+// استخدام خدمة أعلام عبر الإنترنت للحصول على صور أعلام عالية الجودة
+const getFlagUrl = (countryCode: string) => `https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`;
+
 const COUNTRIES: Country[] = [
-  { name: "السعودية", code: "SA", flag: "🇸🇦", dialCode: "+966" },
-  { name: "الإمارات", code: "AE", flag: "🇦🇪", dialCode: "+971" },
-  { name: "الكويت", code: "KW", flag: "🇰🇼", dialCode: "+965" },
-  { name: "قطر", code: "QA", flag: "🇶🇦", dialCode: "+974" },
-  { name: "البحرين", code: "BH", flag: "🇧🇭", dialCode: "+973" },
-  { name: "عُمان", code: "OM", flag: "🇴🇲", dialCode: "+968" },
-  { name: "مصر", code: "EG", flag: "🇪🇬", dialCode: "+20" },
-  { name: "الأردن", code: "JO", flag: "🇯🇴", dialCode: "+962" },
-  { name: "لبنان", code: "LB", flag: "🇱🇧", dialCode: "+961" },
-  { name: "سوريا", code: "SY", flag: "🇸🇾", dialCode: "+963" },
-  { name: "العراق", code: "IQ", flag: "🇮🇶", dialCode: "+964" },
-  { name: "المغرب", code: "MA", flag: "🇲🇦", dialCode: "+212" },
-  { name: "الجزائر", code: "DZ", flag: "🇩🇿", dialCode: "+213" },
-  { name: "تونس", code: "TN", flag: "🇹🇳", dialCode: "+216" },
-  { name: "ليبيا", code: "LY", flag: "🇱🇾", dialCode: "+218" },
-  { name: "السودان", code: "SD", flag: "🇸🇩", dialCode: "+249" },
-  { name: "اليمن", code: "YE", flag: "🇾🇪", dialCode: "+967" },
-  { name: "الولايات المتحدة", code: "US", flag: "🇺🇸", dialCode: "+1" },
-  { name: "كندا", code: "CA", flag: "🇨🇦", dialCode: "+1" },
-  { name: "المملكة المتحدة", code: "GB", flag: "🇬🇧", dialCode: "+44" },
-  { name: "ألمانيا", code: "DE", flag: "🇩🇪", dialCode: "+49" },
-  { name: "فرنسا", code: "FR", flag: "🇫🇷", dialCode: "+33" },
-  { name: "إيطاليا", code: "IT", flag: "🇮🇹", dialCode: "+39" },
-  { name: "إسبانيا", code: "ES", flag: "🇪🇸", dialCode: "+34" },
-  { name: "هولندا", code: "NL", flag: "🇳🇱", dialCode: "+31" },
-  { name: "بلجيكا", code: "BE", flag: "🇧🇪", dialCode: "+32" },
-  { name: "سويسرا", code: "CH", flag: "🇨🇭", dialCode: "+41" },
-  { name: "النمسا", code: "AT", flag: "🇦🇹", dialCode: "+43" },
-  { name: "السويد", code: "SE", flag: "🇸🇪", dialCode: "+46" },
-  { name: "النرويج", code: "NO", flag: "🇳🇴", dialCode: "+47" },
-  { name: "الدنمارك", code: "DK", flag: "🇩🇰", dialCode: "+45" },
-  { name: "فنلندا", code: "FI", flag: "🇫🇮", dialCode: "+358" },
-  { name: "اليابان", code: "JP", flag: "🇯🇵", dialCode: "+81" },
-  { name: "الصين", code: "CN", flag: "🇨🇳", dialCode: "+86" },
-  { name: "كوريا الجنوبية", code: "KR", flag: "🇰🇷", dialCode: "+82" },
-  { name: "الهند", code: "IN", flag: "🇮🇳", dialCode: "+91" },
-  { name: "باكستان", code: "PK", flag: "🇵🇰", dialCode: "+92" },
-  { name: "بنغلاديش", code: "BD", flag: "🇧🇩", dialCode: "+880" },
-  { name: "إندونيسيا", code: "ID", flag: "🇮🇩", dialCode: "+62" },
-  { name: "ماليزيا", code: "MY", flag: "🇲🇾", dialCode: "+60" },
-  { name: "سنغافورة", code: "SG", flag: "🇸🇬", dialCode: "+65" },
-  { name: "تايلاند", code: "TH", flag: "🇹🇭", dialCode: "+66" },
-  { name: "الفلبين", code: "PH", flag: "🇵🇭", dialCode: "+63" },
-  { name: "فيتنام", code: "VN", flag: "🇻🇳", dialCode: "+84" },
-  { name: "أستراليا", code: "AU", flag: "🇦🇺", dialCode: "+61" },
-  { name: "نيوزيلندا", code: "NZ", flag: "🇳🇿", dialCode: "+64" },
-  { name: "جنوب أفريقيا", code: "ZA", flag: "🇿🇦", dialCode: "+27" },
-  { name: "نيجيريا", code: "NG", flag: "🇳🇬", dialCode: "+234" },
-  { name: "البرازيل", code: "BR", flag: "🇧🇷", dialCode: "+55" },
-  { name: "الأرجنتين", code: "AR", flag: "🇦🇷", dialCode: "+54" },
-  { name: "المكسيك", code: "MX", flag: "🇲🇽", dialCode: "+52" },
-  { name: "تركيا", code: "TR", flag: "🇹🇷", dialCode: "+90" },
-  { name: "روسيا", code: "RU", flag: "🇷🇺", dialCode: "+7" },
+  { name: "السعودية", code: "SA", flag: getFlagUrl("SA"), dialCode: "+966" },
+  { name: "الإمارات", code: "AE", flag: getFlagUrl("AE"), dialCode: "+971" },
+  { name: "الكويت", code: "KW", flag: getFlagUrl("KW"), dialCode: "+965" },
+  { name: "قطر", code: "QA", flag: getFlagUrl("QA"), dialCode: "+974" },
+  { name: "البحرين", code: "BH", flag: getFlagUrl("BH"), dialCode: "+973" },
+  { name: "عُمان", code: "OM", flag: getFlagUrl("OM"), dialCode: "+968" },
+  { name: "مصر", code: "EG", flag: getFlagUrl("EG"), dialCode: "+20" },
+  { name: "الأردن", code: "JO", flag: getFlagUrl("JO"), dialCode: "+962" },
+  { name: "لبنان", code: "LB", flag: getFlagUrl("LB"), dialCode: "+961" },
+  { name: "سوريا", code: "SY", flag: getFlagUrl("SY"), dialCode: "+963" },
+  { name: "العراق", code: "IQ", flag: getFlagUrl("IQ"), dialCode: "+964" },
+  { name: "المغرب", code: "MA", flag: getFlagUrl("MA"), dialCode: "+212" },
+  { name: "الجزائر", code: "DZ", flag: getFlagUrl("DZ"), dialCode: "+213" },
+  { name: "تونس", code: "TN", flag: getFlagUrl("TN"), dialCode: "+216" },
+  { name: "ليبيا", code: "LY", flag: getFlagUrl("LY"), dialCode: "+218" },
+  { name: "السودان", code: "SD", flag: getFlagUrl("SD"), dialCode: "+249" },
+  { name: "اليمن", code: "YE", flag: getFlagUrl("YE"), dialCode: "+967" },
+  { name: "الولايات المتحدة", code: "US", flag: getFlagUrl("US"), dialCode: "+1" },
+  { name: "كندا", code: "CA", flag: getFlagUrl("CA"), dialCode: "+1" },
+  { name: "المملكة المتحدة", code: "GB", flag: getFlagUrl("GB"), dialCode: "+44" },
+  { name: "ألمانيا", code: "DE", flag: getFlagUrl("DE"), dialCode: "+49" },
+  { name: "فرنسا", code: "FR", flag: getFlagUrl("FR"), dialCode: "+33" },
+  { name: "إيطاليا", code: "IT", flag: getFlagUrl("IT"), dialCode: "+39" },
+  { name: "إسبانيا", code: "ES", flag: getFlagUrl("ES"), dialCode: "+34" },
+  { name: "هولندا", code: "NL", flag: getFlagUrl("NL"), dialCode: "+31" },
+  { name: "بلجيكا", code: "BE", flag: getFlagUrl("BE"), dialCode: "+32" },
+  { name: "سويسرا", code: "CH", flag: getFlagUrl("CH"), dialCode: "+41" },
+  { name: "النمسا", code: "AT", flag: getFlagUrl("AT"), dialCode: "+43" },
+  { name: "السويد", code: "SE", flag: getFlagUrl("SE"), dialCode: "+46" },
+  { name: "النرويج", code: "NO", flag: getFlagUrl("NO"), dialCode: "+47" },
+  { name: "الدنمارك", code: "DK", flag: getFlagUrl("DK"), dialCode: "+45" },
+  { name: "فنلندا", code: "FI", flag: getFlagUrl("FI"), dialCode: "+358" },
+  { name: "اليابان", code: "JP", flag: getFlagUrl("JP"), dialCode: "+81" },
+  { name: "الصين", code: "CN", flag: getFlagUrl("CN"), dialCode: "+86" },
+  { name: "كوريا الجنوبية", code: "KR", flag: getFlagUrl("KR"), dialCode: "+82" },
+  { name: "الهند", code: "IN", flag: getFlagUrl("IN"), dialCode: "+91" },
+  { name: "باكستان", code: "PK", flag: getFlagUrl("PK"), dialCode: "+92" },
+  { name: "بنغلاديش", code: "BD", flag: getFlagUrl("BD"), dialCode: "+880" },
+  { name: "إندونيسيا", code: "ID", flag: getFlagUrl("ID"), dialCode: "+62" },
+  { name: "ماليزيا", code: "MY", flag: getFlagUrl("MY"), dialCode: "+60" },
+  { name: "سنغافورة", code: "SG", flag: getFlagUrl("SG"), dialCode: "+65" },
+  { name: "تايلاند", code: "TH", flag: getFlagUrl("TH"), dialCode: "+66" },
+  { name: "الفلبين", code: "PH", flag: getFlagUrl("PH"), dialCode: "+63" },
+  { name: "فيتنام", code: "VN", flag: getFlagUrl("VN"), dialCode: "+84" },
+  { name: "أستراليا", code: "AU", flag: getFlagUrl("AU"), dialCode: "+61" },
+  { name: "نيوزيلندا", code: "NZ", flag: getFlagUrl("NZ"), dialCode: "+64" },
+  { name: "جنوب أفريقيا", code: "ZA", flag: getFlagUrl("ZA"), dialCode: "+27" },
+  { name: "نيجيريا", code: "NG", flag: getFlagUrl("NG"), dialCode: "+234" },
+  { name: "البرازيل", code: "BR", flag: getFlagUrl("BR"), dialCode: "+55" },
+  { name: "الأرجنتين", code: "AR", flag: getFlagUrl("AR"), dialCode: "+54" },
+  { name: "المكسيك", code: "MX", flag: getFlagUrl("MX"), dialCode: "+52" },
+  { name: "تركيا", code: "TR", flag: getFlagUrl("TR"), dialCode: "+90" },
+  { name: "روسيا", code: "RU", flag: getFlagUrl("RU"), dialCode: "+7" },
 ];
 
 interface PhoneInputProps {
@@ -151,9 +154,21 @@ export function PhoneInput({
             data-testid="country-selector"
           >
             <div className="flex items-center gap-2">
-              <div className="relative">
-                <span className="text-xl drop-shadow-sm">{selectedCountry.flag}</span>
-                <div className="absolute -inset-1 bg-white/20 rounded-full blur-sm -z-10"></div>
+              <div className="relative flex-shrink-0">
+                <img 
+                  src={selectedCountry.flag} 
+                  alt={`${selectedCountry.name} flag`}
+                  className="w-6 h-4 object-cover rounded-sm shadow-sm"
+                  onError={(e) => {
+                    // إذا فشل تحميل الصورة، استخدم نص بديل
+                    e.currentTarget.style.display = 'none';
+                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden w-6 h-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-sm items-center justify-center text-xs font-bold text-primary">
+                  {selectedCountry.code}
+                </div>
               </div>
               <span className="text-sm font-medium text-foreground">{selectedCountry.dialCode}</span>
             </div>
@@ -177,8 +192,20 @@ export function PhoneInput({
                   className="flex items-center gap-3 cursor-pointer hover:bg-muted transition-colors py-2"
                 >
                   <div className="relative flex-shrink-0">
-                    <span className="text-xl drop-shadow-sm">{country.flag}</span>
-                    <div className="absolute -inset-1 bg-white/10 rounded-full blur-sm -z-10"></div>
+                    <img 
+                      src={country.flag} 
+                      alt={`${country.name} flag`}
+                      className="w-8 h-5 object-cover rounded-sm shadow-sm border border-border"
+                      onError={(e) => {
+                        // إذا فشل تحميل الصورة، استخدم نص بديل
+                        e.currentTarget.style.display = 'none';
+                        const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = 'flex';
+                      }}
+                    />
+                    <div className="hidden w-8 h-5 bg-gradient-to-r from-primary/20 to-accent/20 rounded-sm items-center justify-center text-xs font-bold text-primary border border-border">
+                      {country.code}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <span className="font-medium text-primary">{country.dialCode}</span>

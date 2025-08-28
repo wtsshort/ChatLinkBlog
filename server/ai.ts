@@ -1,8 +1,11 @@
 import { GoogleGenAI } from '@google/genai';
+import Groq from 'groq-sdk';
 
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
-export async function generateArticle(topic: string, language: string = 'ar') {
+// دالة لإنشاء المقال باستخدام Groq (أسرع وأكثر استقراراً)
+export async function generateArticleWithGroq(topic: string, language: string = 'ar') {
   try {
     const prompt = language === 'ar' ? `
       اكتب مقالاً شاملاً وعالي الجودة حول موضوع: "${topic}"
@@ -40,12 +43,19 @@ export async function generateArticle(topic: string, language: string = 'ar') {
       Start with main title using #, then subheadings with ## and ###
     `;
 
-    const response = await genAI.models.generateContent({
-      model: 'gemini-1.5-flash', // استخدام النموذج الأقل استهلاكاً
-      contents: prompt
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      model: "llama-3.1-70b-versatile", // أفضل نموذج للنصوص الطويلة
+      temperature: 0.7,
+      max_tokens: 4000,
     });
     
-    const content = response.text || '';
+    const content = completion.choices[0]?.message?.content || '';
     
     // استخراج العنوان من المحتوى
     const titleMatch = content.match(/^# (.+)$/m);
@@ -68,19 +78,101 @@ export async function generateArticle(topic: string, language: string = 'ar') {
       content,
       excerpt,
       slug: slug || `article-${Date.now()}`,
-      category: 'مقالات عامة',
+      category: language === 'ar' ? 'مقالات عامة' : 'General Articles',
       status: 'draft'
     };
     
   } catch (error: any) {
-    console.error('Error generating article:', error);
+    console.error('Error generating article with Groq:', error);
+    throw error; // سيتم التعامل معه في الدالة الرئيسية
+  }
+}
+
+// دالة إنشاء المقال مع نظام الاحتياط (Groq -> Gemini -> Sample)
+export async function generateArticle(topic: string, language: string = 'ar') {
+  // المحاولة الأولى: Groq (الأسرع والأفضل)
+  try {
+    console.log('Trying Groq AI...');
+    return await generateArticleWithGroq(topic, language);
+  } catch (groqError: any) {
+    console.log('Groq failed, trying Gemini...', groqError.message);
     
-    // إذا كان الخطأ متعلق بالحصة المجانية، أنشئ محتوى تجريبي
-    if (error.status === 429 || error.message?.includes('quota')) {
+    // المحاولة الثانية: Google Gemini
+    try {
+    const prompt = language === 'ar' ? `
+      اكتب مقالاً شاملاً وعالي الجودة حول موضوع: "${topic}"
+      
+      المطلوب:
+      1. مقال من 1500-2000 كلمة
+      2. تحسين محركات البحث SEO
+      3. العنوان الرئيسي جذاب ومحسن للبحث
+      4. عناوين فرعية H2, H3 منظمة
+      5. فقرات متوسطة الطول (50-100 كلمة لكل فقرة)
+      6. استخدام الكلمات المفتاحية بشكل طبيعي
+      7. محتوى مفيد وقيم للقارئ
+      8. خاتمة تلخص النقاط الرئيسية
+      9. تجنب المحتوى المكرر
+      10. مناسب لـ Google AdSense
+      
+      اكتب بصيغة مارك داون مع عناوين واضحة.
+      ابدأ بالعنوان الرئيسي بـ #، ثم العناوين الفرعية بـ ## و ###
+    ` : `
+      Write a comprehensive, high-quality article about: "${topic}"
+      
+      Requirements:
+      1. 1500-2000 words article
+      2. SEO optimized content
+      3. Catchy main title optimized for search
+      4. Well-structured H2, H3 headings
+      5. Medium-length paragraphs (50-100 words each)
+      6. Natural keyword usage
+      7. Valuable and useful content for readers
+      8. Conclusion summarizing main points
+      9. Avoid duplicate content
+      10. Google AdSense friendly
+      
+      Write in Markdown format with clear headings.
+      Start with main title using #, then subheadings with ## and ###
+    `;
+
+      const response = await genAI.models.generateContent({
+        model: 'gemini-1.5-flash',
+        contents: prompt
+      });
+    
+    const content = response.text || '';
+    
+    // استخراج العنوان من المحتوى
+    const titleMatch = content.match(/^# (.+)$/m);
+    const title = titleMatch ? titleMatch[1] : topic;
+    
+    // إنشاء slug من العنوان
+    const slug = title
+      .toLowerCase()
+      .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '') // السماح بالعربية والإنجليزية والأرقام
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+    
+    // استخراج المقدمة كملخص
+    const paragraphs = content.split('\n').filter((p: string) => p.trim() && !p.startsWith('#'));
+    const excerpt = paragraphs[0] ? paragraphs[0].substring(0, 160) + '...' : '';
+    
+      return {
+        title,
+        content,
+        excerpt,
+        slug: slug || `article-${Date.now()}`,
+        category: language === 'ar' ? 'مقالات عامة' : 'General Articles',
+        status: 'draft'
+      };
+      
+    } catch (geminiError: any) {
+      console.log('Both Groq and Gemini failed, using sample content...', geminiError.message);
+      
+      // المحاولة الثالثة: محتوى تجريبي
       return generateSampleArticle(topic, language);
     }
-    
-    throw new Error(language === 'ar' ? 'فشل في إنشاء المقال. جرب مرة أخرى لاحقاً.' : 'Failed to generate article. Try again later.');
   }
 }
 

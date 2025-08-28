@@ -137,35 +137,67 @@ export default function WhatsAppGenerator() {
   };
 
   return (
-    <div className={`max-w-2xl mx-auto ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-      <Card className="card-interactive hover-lift shadow-lg border-2 border-border/50 hover:border-primary/30 transition-all duration-500">
-        <CardHeader className="bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-t-xl">
-          <CardTitle className="text-3xl font-bold text-center gradient-text mb-2">
-            {language === 'ar' ? 'أنشئ رابط واتساب الخاص بك' : 'Create Your WhatsApp Link'}
-          </CardTitle>
-          <p className="text-center text-muted-foreground text-sm">
-            {language === 'ar' ? 'أسرع طريقة لإنشاء روابط واتساب احترافية' : 'The fastest way to create professional WhatsApp links'}
-          </p>
+    <div className={`max-w-3xl mx-auto ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+      <Card className="card-interactive hover-lift shadow-2xl border-0 bg-gradient-to-br from-white via-white to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-green-900/20 backdrop-blur-sm transition-all duration-700 hover:scale-[1.02] overflow-hidden">
+        {/* Decorative background patterns */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-blue-500/5 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/10 to-transparent rounded-full blur-2xl"></div>
+        
+        <CardHeader className="relative bg-gradient-to-r from-green-600/10 via-emerald-500/10 to-teal-500/10 rounded-t-2xl border-b border-green-200/30 dark:border-green-800/30 py-8">
+          <div className="text-center">
+            {/* Main icon */}
+            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 rounded-3xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-transform duration-300">
+              <MessageSquare className="h-10 w-10 text-white drop-shadow-sm" />
+            </div>
+            
+            <CardTitle className="text-4xl md:text-5xl font-black text-center mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent leading-tight">
+              {language === 'ar' ? 'أنشئ رابط واتساب مميز' : 'Create Your WhatsApp Link'}
+            </CardTitle>
+            <p className="text-center text-muted-foreground text-lg font-medium max-w-lg mx-auto leading-relaxed">
+              {language === 'ar' ? 'أسرع وأسهل طريقة لإنشاء روابط واتساب احترافية مجانية' : 'The fastest way to create professional WhatsApp links for free'}
+            </p>
+            
+            {/* Feature badges */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
+              <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border-green-200 hover:scale-105 transition-transform">
+                {language === 'ar' ? '🚀 فوري' : '🚀 Instant'}
+              </Badge>
+              <Badge className="bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 border-blue-200 hover:scale-105 transition-transform">
+                {language === 'ar' ? '🔒 آمن' : '🔒 Secure'}
+              </Badge>
+              <Badge className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200 hover:scale-105 transition-transform">
+                {language === 'ar' ? '📊 تحليلات' : '📊 Analytics'}
+              </Badge>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="relative p-8">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{language === 'ar' ? 'رقم الهاتف' : 'Phone Number'}</FormLabel>
+                    <FormLabel className="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                      <div className="w-2 h-6 bg-gradient-to-b from-green-500 to-emerald-500 rounded-full"></div>
+                      {language === 'ar' ? 'رقم الهاتف' : 'Phone Number'}
+                    </FormLabel>
                     <FormControl>
-                      <PhoneInput
-                        value={field.value}
-                        onChange={field.onChange}
-                        language={language}
-                        placeholder={language === 'ar' ? '501234567' : '1234567890'}
-                        data-testid="phone-input"
-                      />
+                      <div className="relative">
+                        <PhoneInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          language={language}
+                          placeholder={language === 'ar' ? '501234567' : '1234567890'}
+                          data-testid="phone-input"
+                          className="transition-all duration-300 hover:scale-[1.02] focus-within:scale-[1.02]"
+                        />
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      </div>
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-slate-600 dark:text-slate-400 font-medium">
                       {language === 'ar' ? 'اختر الدولة وأدخل رقم الهاتف بدون رمز الدولة' : 'Select country and enter phone number without country code'}
                     </FormDescription>
                     <FormMessage />
@@ -178,16 +210,23 @@ export default function WhatsAppGenerator() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{language === 'ar' ? 'الرسالة (اختيارية)' : 'Message (Optional)'}</FormLabel>
+                    <FormLabel className="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                      <div className="w-2 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                      {language === 'ar' ? 'الرسالة (اختيارية)' : 'Message (Optional)'}
+                    </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder={language === 'ar' ? 'مرحبا! أنا مهتم بخدماتكم...' : 'Hello! I\'m interested in your services...'}
-                        rows={4}
-                        {...field}
-                        data-testid="message-input"
-                      />
+                      <div className="relative">
+                        <Textarea
+                          placeholder={language === 'ar' ? 'مرحبا! أنا مهتم بخدماتكم...' : 'Hello! I\'m interested in your services...'}
+                          rows={5}
+                          {...field}
+                          data-testid="message-input"
+                          className="resize-none transition-all duration-300 hover:scale-[1.01] focus:scale-[1.01] bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-800 dark:to-slate-700/50 border-2 hover:border-green-300 focus:border-green-400 text-base leading-relaxed"
+                        />
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/5 to-blue-500/5 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      </div>
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-slate-600 dark:text-slate-400 font-medium">
                       {language === 'ar' ? 'املأ مسبقاً رسالة واتساب للمستخدمين' : 'Pre-fill the WhatsApp message for your users'}
                     </FormDescription>
                     <FormMessage />
@@ -195,13 +234,15 @@ export default function WhatsAppGenerator() {
                 )}
               />
 
-              {/* hCaptcha placeholder */}
-              <div className="flex justify-center">
-                <div className="bg-secondary rounded-lg p-4 border-2 border-dashed border-border">
-                  <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                    <div className="w-4 h-4 bg-muted-foreground rounded"></div>
-                    <span className="text-sm">
-                      {language === 'ar' ? 'التحقق من hCaptcha' : 'hCaptcha verification'}
+              {/* Enhanced hCaptcha placeholder */}
+              <div className="flex justify-center my-8">
+                <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-green-400 transition-all duration-300 transform hover:scale-105">
+                  <div className="flex items-center justify-center gap-3 text-slate-600 dark:text-slate-400">
+                    <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+                      <Shield className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-base font-medium">
+                      {language === 'ar' ? 'التحقق الأمني - hCaptcha' : 'hCaptcha Security Verification'}
                     </span>
                   </div>
                 </div>
@@ -209,24 +250,25 @@ export default function WhatsAppGenerator() {
 
               <Button 
                 type="submit" 
-                className="w-full btn-gradient hover-lift text-white font-semibold py-3 px-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70"
+                className="w-full relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-6 px-8 text-xl rounded-2xl shadow-2xl hover:shadow-green-500/25 transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-1 disabled:opacity-70 group"
                 disabled={createLinkMutation.isPending}
                 data-testid="generate-button"
               >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 {createLinkMutation.isPending ? (
-                  <div className="flex items-center justify-center gap-3">
+                  <div className="flex items-center justify-center gap-4 relative z-10">
                     <div className="loading-dots">
                       <div></div>
                       <div></div>
                       <div></div>
                       <div></div>
                     </div>
-                    <span>{language === 'ar' ? 'جاري الإنشاء...' : 'Generating...'}</span>
+                    <span className="font-extrabold">{language === 'ar' ? 'جاري الإنشاء...' : 'Generating...'}</span>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <Link className="h-5 w-5" />
-                    <span>{language === 'ar' ? 'إنشاء رابط واتساب' : 'Generate WhatsApp Link'}</span>
+                  <div className="flex items-center justify-center gap-3 relative z-10">
+                    <Link className="h-6 w-6 drop-shadow-sm" />
+                    <span className="font-extrabold tracking-wide">{language === 'ar' ? 'إنشاء رابط واتساب' : 'Generate WhatsApp Link'}</span>
                   </div>
                 )}
               </Button>

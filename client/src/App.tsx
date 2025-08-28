@@ -17,6 +17,7 @@ import BlogPost from "@/pages/blog-post";
 import Analytics from "@/pages/analytics";
 import FAQ from "@/pages/faq";
 import Terms from "@/pages/terms";
+import Privacy from "@/pages/privacy";
 import Solutions from "@/pages/solutions";
 
 function Router() {
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/analytics" component={Analytics} />
       <Route path="/faq" component={FAQ} />
       <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
       <Route component={NotFound} />
     </Switch>
   );

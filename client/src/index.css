@@ -74,64 +74,64 @@
 }
 
 .dark {
-  /* Dark mode with enhanced contrast and vibrant accents */
-  --background: linear-gradient(135deg, hsl(225, 75%, 3%) 0%, hsl(220, 70%, 5%) 100%);
-  --background-solid: hsl(225, 75%, 3%);
-  --foreground: hsl(210, 40%, 95%);
-  --card: hsl(224, 71%, 6%);
-  --card-foreground: hsl(210, 40%, 95%);
-  --popover: hsl(224, 71%, 6%);
-  --popover-foreground: hsl(210, 40%, 95%);
+  /* Softer dark mode with better contrast */
+  --background: linear-gradient(135deg, hsl(224, 30%, 12%) 0%, hsl(220, 25%, 15%) 100%);
+  --background-solid: hsl(224, 30%, 12%);
+  --foreground: hsl(210, 20%, 92%);
+  --card: hsl(224, 25%, 18%);
+  --card-foreground: hsl(210, 20%, 92%);
+  --popover: hsl(224, 25%, 18%);
+  --popover-foreground: hsl(210, 20%, 92%);
   
   /* Enhanced primary colors for dark mode */
-  --primary: hsl(142, 85%, 50%);
-  --primary-hover: hsl(142, 85%, 55%);
-  --primary-foreground: hsl(220, 70%, 5%);
+  --primary: hsl(142, 75%, 45%);
+  --primary-hover: hsl(142, 75%, 50%);
+  --primary-foreground: hsl(224, 30%, 12%);
   
-  --secondary: hsl(215, 30%, 12%);
-  --secondary-foreground: hsl(210, 40%, 95%);
-  --muted: hsl(215, 30%, 12%);
-  --muted-foreground: hsl(217, 15%, 70%);
+  --secondary: hsl(215, 20%, 22%);
+  --secondary-foreground: hsl(210, 20%, 85%);
+  --muted: hsl(215, 20%, 22%);
+  --muted-foreground: hsl(217, 12%, 65%);
   
-  /* Vibrant accent for dark mode */
-  --accent: hsl(25, 95%, 60%);
-  --accent-hover: hsl(25, 95%, 65%);
-  --accent-foreground: hsl(220, 70%, 5%);
+  /* Softer accent for dark mode */
+  --accent: hsl(25, 85%, 55%);
+  --accent-hover: hsl(25, 85%, 60%);
+  --accent-foreground: hsl(224, 30%, 12%);
   
-  --success: hsl(142, 85%, 50%);
-  --warning: hsl(42, 95%, 65%);
-  --destructive: hsl(0, 85%, 65%);
-  --destructive-foreground: hsl(220, 70%, 5%);
+  --success: hsl(142, 75%, 45%);
+  --warning: hsl(42, 85%, 60%);
+  --destructive: hsl(0, 75%, 60%);
+  --destructive-foreground: hsl(224, 30%, 12%);
   
-  --border: hsl(215, 30%, 15%);
-  --input: hsl(215, 30%, 15%);
-  --ring: hsl(142, 85%, 50%);
+  --border: hsl(215, 20%, 25%);
+  --input: hsl(215, 20%, 25%);
+  --ring: hsl(142, 75%, 45%);
   
   /* Enhanced chart colors for dark mode */
-  --chart-1: hsl(142, 85%, 50%);
-  --chart-2: hsl(25, 95%, 60%);
-  --chart-3: hsl(270, 95%, 70%);
-  --chart-4: hsl(195, 95%, 65%);
-  --chart-5: hsl(345, 85%, 70%);
+  --chart-1: hsl(142, 75%, 45%);
+  --chart-2: hsl(25, 85%, 55%);
+  --chart-3: hsl(270, 85%, 65%);
+  --chart-4: hsl(195, 85%, 60%);
+  --chart-5: hsl(345, 75%, 65%);
   
-  /* Dark mode gradients */
-  --gradient-primary: linear-gradient(135deg, hsl(142, 85%, 50%) 0%, hsl(158, 85%, 55%) 100%);
-  --gradient-accent: linear-gradient(135deg, hsl(25, 95%, 60%) 0%, hsl(45, 95%, 65%) 100%);
-  --gradient-purple: linear-gradient(135deg, hsl(270, 95%, 70%) 0%, hsl(290, 95%, 75%) 100%);
-  --gradient-blue: linear-gradient(135deg, hsl(195, 95%, 65%) 0%, hsl(220, 95%, 70%) 100%);
+  /* Softer dark mode gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(142, 75%, 45%) 0%, hsl(158, 75%, 50%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(25, 85%, 55%) 0%, hsl(45, 85%, 60%) 100%);
+  --gradient-purple: linear-gradient(135deg, hsl(270, 85%, 65%) 0%, hsl(290, 85%, 70%) 100%);
+  --gradient-blue: linear-gradient(135deg, hsl(195, 85%, 60%) 0%, hsl(220, 85%, 65%) 100%);
   
-  /* Enhanced shadows for dark mode */
-  --hover-lift: 0 10px 25px rgba(0, 0, 0, 0.3);
-  --hover-lift-strong: 0 15px 35px rgba(0, 0, 0, 0.4);
+  /* Softer shadows for dark mode */
+  --hover-lift: 0 8px 20px rgba(0, 0, 0, 0.2);
+  --hover-lift-strong: 0 12px 30px rgba(0, 0, 0, 0.25);
   
-  --sidebar: hsl(215, 30%, 12%);
-  --sidebar-foreground: hsl(210, 40%, 95%);
-  --sidebar-primary: hsl(142, 85%, 50%);
-  --sidebar-primary-foreground: hsl(220, 70%, 5%);
-  --sidebar-accent: hsl(25, 95%, 60%);
-  --sidebar-accent-foreground: hsl(220, 70%, 5%);
-  --sidebar-border: hsl(215, 30%, 15%);
-  --sidebar-ring: hsl(142, 85%, 50%);
+  --sidebar: hsl(215, 20%, 22%);
+  --sidebar-foreground: hsl(210, 20%, 85%);
+  --sidebar-primary: hsl(142, 75%, 45%);
+  --sidebar-primary-foreground: hsl(224, 30%, 12%);
+  --sidebar-accent: hsl(25, 85%, 55%);
+  --sidebar-accent-foreground: hsl(224, 30%, 12%);
+  --sidebar-border: hsl(215, 20%, 25%);
+  --sidebar-ring: hsl(142, 75%, 45%);
 }
 
 @layer base {

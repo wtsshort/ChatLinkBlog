@@ -151,10 +151,10 @@ export default function WhatsAppGenerator() {
               <MessageSquare className="h-10 w-10 text-white drop-shadow-sm" />
             </div>
             
-            <CardTitle className={`text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent leading-tight ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`}>
+            <CardTitle className={`text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent leading-tight text-center ${language === 'ar' ? 'font-cairo' : ''}`}>
               {language === 'ar' ? 'أنشئ رابط واتساب مميز' : 'Create Your WhatsApp Link'}
             </CardTitle>
-            <p className={`text-muted-foreground text-lg font-medium max-w-lg mx-auto leading-relaxed ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`}>
+            <p className={`text-muted-foreground text-lg font-medium max-w-lg mx-auto leading-relaxed text-center ${language === 'ar' ? 'font-cairo' : ''}`}>
               {language === 'ar' ? 'أسرع وأسهل طريقة لإنشاء روابط واتساب احترافية مجانية' : 'The fastest way to create professional WhatsApp links for free'}
             </p>
             

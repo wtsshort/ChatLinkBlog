@@ -44,7 +44,7 @@ export default function Home() {
               {language === 'ar' ? '🚀 منصة الجيل الجديد' : '🚀 Next-Gen Platform'}
             </Badge>
             
-            <h1 className={`text-5xl md:text-7xl font-black gradient-text mb-8 leading-tight ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <h1 className={`text-5xl md:text-7xl font-black gradient-text mb-8 leading-tight text-center ${language === 'ar' ? 'font-cairo' : ''}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
               {language === 'ar' ? 'ثورة في' : 'Revolutionize'}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500">
                 {language === 'ar' ? 'التواصل' : 'Communication'}
@@ -53,7 +53,7 @@ export default function Home() {
               {language === 'ar' ? 'عبر واتساب' : 'via WhatsApp'}
             </h1>
             
-            <p className={`text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed ${language === 'ar' ? 'text-right font-cairo' : 'text-center'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <p className={`text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed text-center ${language === 'ar' ? 'font-cairo' : ''}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
               {language === 'ar' 
                 ? 'منصة شاملة ومجانية لإنشاء وإدارة وتحليل روابط واتساب الاحترافية. مصممة للجميع لتسهيل التواصل الرقمي.'
                 : 'The complete FREE platform for creating, managing, and analyzing professional WhatsApp links. Built for everyone to simplify digital communication.'

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertWhatsappLinkSchema, insertBlogPostSchema } from "@shared/schema";
-import { generateArticle, generateSEOData, generateImagePrompt } from "./ai";
+import { generateArticle, generateSEOData, generateImagePrompt, generateArticleImage } from "./ai";
 import { requireAuth, loginAdmin, logoutAdmin, checkAuth } from "./auth";
 import { z } from "zod";
 
@@ -144,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // إنشاء بيانات SEO
       const seoData = await generateSEOData(article.content, language);
       
-      // إنشاء وصف للصورة
+      // إنشاء وصف للصورة وإنشاء الصورة
       const imagePrompt = await generateImagePrompt(article.title, language);
       
       // دمج البيانات
@@ -153,14 +153,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...seoData,
         featuredImagePrompt: imagePrompt,
         language,
-        author: 'AI Assistant'
+        author: 'AI Assistant',
+        readingTime: Math.ceil(article.content.split(' ').length / 200) // تقدير زمن القراءة
       };
       
       res.json(fullArticle);
       
     } catch (error: any) {
       console.error("Error generating article:", error);
-      const message = error.message || (language === 'ar' ? "فشل في إنشاء المقال" : "Failed to generate article");
+      const message = error.message || "فشل في إنشاء المقال";
       res.status(500).json({ message });
     }
   });
@@ -197,6 +198,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting blog post:", error);
       res.status(500).json({ message: "Failed to delete post" });
+    }
+  });
+
+  // إنشاء صورة للمقال
+  app.post("/api/admin/generate-image", requireAuth, async (req, res) => {
+    try {
+      const { prompt, title } = req.body;
+      
+      if (!prompt) {
+        return res.status(400).json({ message: "Image prompt is required" });
+      }
+
+      // إنشاء الصورة باستخدام AI
+      const imageUrl = await generateArticleImage(prompt, title || 'article');
+      
+      res.json({ imageUrl, prompt });
+      
+    } catch (error: any) {
+      console.error("Error generating image:", error);
+      res.status(500).json({ message: "Failed to generate image" });
     }
   });
 

@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { apiRequest } from "@/lib/queryClient";
-import { Sparkles, FileText, Eye, Edit, Trash2, LogOut, Save, Wand2 } from "lucide-react";
+import { Sparkles, FileText, Eye, Edit, Trash2, LogOut, Save, Wand2, TrendingUp, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
 import DashboardStats from "@/components/dashboard-stats";
 import { type BlogPost } from "@shared/schema";
@@ -110,6 +110,30 @@ export default function AdminPanel() {
   const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/blog-posts'],
     enabled: isAuthenticated,
+  });
+
+  const getTrendingTopicMutation = useMutation({
+    mutationFn: async () => {
+      const token = localStorage.getItem('admin_token');
+      const response = await apiRequest("GET", "/api/admin/trending-topic", undefined, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      articleForm.setValue('topic', data.topic);
+      toast({
+        title: language === 'ar' ? 'تم اختيار موضوع ترندي!' : 'Trending Topic Selected!',
+        description: language === 'ar' ? 'تم ملء الحقل بموضوع محسّن لـ SEO' : 'Topic field filled with SEO-optimized subject',
+      });
+    },
+    onError: () => {
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: language === 'ar' ? 'فشل في اختيار موضوع' : 'Failed to get trending topic',
+        variant: "destructive",
+      });
+    },
   });
 
   const generateArticleMutation = useMutation({
@@ -303,14 +327,34 @@ export default function AdminPanel() {
                         <FormItem>
                           <FormLabel>{language === 'ar' ? 'موضوع المقال' : 'Article Topic'}</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder={language === 'ar' 
-                                ? 'مثال: أفضل استراتيجيات التسويق الرقمي 2024'
-                                : 'Example: Best Digital Marketing Strategies 2024'
-                              }
-                              {...field}
-                              data-testid="topic-input"
-                            />
+                            <div className="flex gap-2">
+                              <Input
+                                placeholder={language === 'ar' 
+                                  ? 'مثال: أفضل استراتيجيات التسويق الرقمي 2024'
+                                  : 'Example: Best Digital Marketing Strategies 2024'
+                                }
+                                {...field}
+                                data-testid="topic-input"
+                                className="flex-1"
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => getTrendingTopicMutation.mutate()}
+                                disabled={getTrendingTopicMutation.isPending}
+                                className="shrink-0"
+                                data-testid="trending-topic-button"
+                              >
+                                {getTrendingTopicMutation.isPending ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <TrendingUp className="h-4 w-4" />
+                                )}
+                                <span className="ml-2 hidden sm:inline">
+                                  {language === 'ar' ? 'موضوع ترندي' : 'Trending'}
+                                </span>
+                              </Button>
+                            </div>
                           </FormControl>
                           <FormDescription>
                             {language === 'ar' 

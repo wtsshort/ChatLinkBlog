@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { apiRequest } from "@/lib/queryClient";
 import { generateWhatsAppLink, validatePhoneNumber } from "@/lib/whatsapp";
-import { Link, Copy, Share, MessageSquare, Calendar, Shield, Tag } from "lucide-react";
+import { Link, Copy, Share, MessageSquare, Calendar, Shield, Tag, QrCode, BarChart3, Send, Twitter } from "lucide-react";
 import { PhoneInput } from "@/components/phone-input";
 import { QRCodeGenerator } from "@/components/qr-code-generator";
 import { MessageTemplates } from "@/components/message-templates";
@@ -220,40 +220,153 @@ export default function WhatsAppGenerator() {
           </Form>
 
           {generatedLink && (
-            <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20" data-testid="generated-link">
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-foreground">
-                  {language === 'ar' ? 'رابط واتساب الخاص بك:' : 'Your WhatsApp Link:'}
-                </label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    value={generatedLink}
-                    readOnly
-                    className="flex-1 bg-background"
-                    data-testid="generated-link-input"
-                  />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={copyToClipboard}
-                    data-testid="copy-button"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={shareLink}
-                    data-testid="share-button"
-                  >
-                    <Share className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                  <span>0 {language === 'ar' ? 'نقرة مُتتبعة' : 'clicks tracked'}</span>
+            <div className="mt-6 space-y-4">
+              {/* Generated Link */}
+              <div className="p-4 bg-accent/10 rounded-lg border border-accent/20" data-testid="generated-link">
+                <div className="space-y-3">
+                  <label className="block text-sm font-medium text-foreground">
+                    {language === 'ar' ? 'رابط واتساب الخاص بك:' : 'Your WhatsApp Link:'}
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      value={generatedLink}
+                      readOnly
+                      className="flex-1 bg-background"
+                      data-testid="generated-link-input"
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={copyToClipboard}
+                      data-testid="copy-button"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={shareLink}
+                      data-testid="share-button"
+                    >
+                      <Share className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
+                    <span>0 {language === 'ar' ? 'نقرة مُتتبعة' : 'clicks tracked'}</span>
+                  </div>
                 </div>
               </div>
+
+              {/* QR Code and Analytics */}
+              <Tabs defaultValue="qr" className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="qr" className="flex items-center gap-2">
+                    <QrCode className="h-4 w-4" />
+                    {language === 'ar' ? 'رمز QR' : 'QR Code'}
+                  </TabsTrigger>
+                  <TabsTrigger value="analytics" className="flex items-center gap-2">
+                    <BarChart3 className="h-4 w-4" />
+                    {language === 'ar' ? 'التحليلات' : 'Analytics'}
+                  </TabsTrigger>
+                  <TabsTrigger value="sharing" className="flex items-center gap-2">
+                    <Share className="h-4 w-4" />
+                    {language === 'ar' ? 'المشاركة' : 'Sharing'}
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="qr" className="space-y-4">
+                  <QRCodeGenerator url={generatedLink} title={form.getValues("title")} />
+                </TabsContent>
+
+                <TabsContent value="analytics" className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        {language === 'ar' ? 'إحصائيات الرابط' : 'Link Analytics'}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-center p-4 bg-muted/50 rounded-lg">
+                          <div className="text-2xl font-bold text-primary">0</div>
+                          <div className="text-sm text-muted-foreground">
+                            {language === 'ar' ? 'إجمالي النقرات' : 'Total Clicks'}
+                          </div>
+                        </div>
+                        <div className="text-center p-4 bg-muted/50 rounded-lg">
+                          <div className="text-2xl font-bold text-primary">0</div>
+                          <div className="text-sm text-muted-foreground">
+                            {language === 'ar' ? 'اليوم' : 'Today'}
+                          </div>
+                        </div>
+                        <div className="text-center p-4 bg-muted/50 rounded-lg">
+                          <div className="text-2xl font-bold text-primary">0</div>
+                          <div className="text-sm text-muted-foreground">
+                            {language === 'ar' ? 'هذا الأسبوع' : 'This Week'}
+                          </div>
+                        </div>
+                        <div className="text-center p-4 bg-muted/50 rounded-lg">
+                          <div className="text-2xl font-bold text-primary">0</div>
+                          <div className="text-sm text-muted-foreground">
+                            {language === 'ar' ? 'هذا الشهر' : 'This Month'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-4 text-xs text-muted-foreground text-center">
+                        {language === 'ar' ? 
+                          'ستظهر الإحصائيات عند بدء النقر على الرابط' : 
+                          'Analytics will appear once the link starts receiving clicks'
+                        }
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="sharing" className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        {language === 'ar' ? 'خيارات المشاركة' : 'Sharing Options'}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                        onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(generatedLink)}`, '_blank')}
+                      >
+                        <MessageSquare className="h-4 w-4" />
+                        {language === 'ar' ? 'مشاركة عبر واتساب' : 'Share via WhatsApp'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                        onClick={() => window.open(`https://telegram.me/share/url?url=${encodeURIComponent(generatedLink)}`, '_blank')}
+                      >
+                        <Send className="h-4 w-4" />
+                        {language === 'ar' ? 'مشاركة عبر تيليجرام' : 'Share via Telegram'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                        onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(generatedLink)}`, '_blank')}
+                      >
+                        <Twitter className="h-4 w-4" />
+                        {language === 'ar' ? 'مشاركة عبر تويتر' : 'Share via Twitter'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                        onClick={copyToClipboard}
+                      >
+                        <Copy className="h-4 w-4" />
+                        {language === 'ar' ? 'نسخ الرابط' : 'Copy Link'}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
             </div>
           )}
         </CardContent>

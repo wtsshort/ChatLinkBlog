@@ -14,15 +14,15 @@ interface QRCodeGeneratorProps {
 
 export function QRCodeGenerator({ url, title }: QRCodeGeneratorProps) {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
-  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const { language } = useLanguage();
 
+  // Auto-generate QR code when component mounts
   useEffect(() => {
-    if (url && isOpen) {
+    if (url) {
       generateQRCode();
     }
-  }, [url, isOpen]);
+  }, [url]);
 
   const generateQRCode = async () => {
     try {
@@ -94,64 +94,50 @@ export function QRCodeGenerator({ url, title }: QRCodeGeneratorProps) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <QrCode className="h-4 w-4" />
-          {language === 'ar' ? 'رمز QR' : 'QR Code'}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-center">
-            {language === 'ar' ? 'رمز QR للرابط' : 'QR Code for Link'}
-          </DialogTitle>
-        </DialogHeader>
+    <Card>
+      <CardContent className="p-6">
         <div className="space-y-4">
-          <Card>
-            <CardContent className="flex justify-center items-center p-6">
-              {qrCodeUrl ? (
-                <div className="space-y-4 text-center">
-                  <img 
-                    src={qrCodeUrl} 
-                    alt="QR Code" 
-                    className="mx-auto rounded-lg shadow-lg border"
-                    width={256}
-                    height={256}
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    {language === 'ar' ? 
-                      'امسح الرمز للفتح في واتساب' : 
-                      'Scan to open in WhatsApp'
-                    }
-                  </p>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center h-64 w-64">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">
+              {language === 'ar' ? 'رمز QR للرابط' : 'QR Code for Link'}
+            </h3>
+            {qrCodeUrl ? (
+              <div className="space-y-4">
+                <img 
+                  src={qrCodeUrl} 
+                  alt="QR Code" 
+                  className="mx-auto rounded-lg shadow-lg border"
+                  width={200}
+                  height={200}
+                />
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? 
+                    'امسح الرمز للفتح في واتساب' : 
+                    'Scan to open in WhatsApp'
+                  }
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-48 w-48 mx-auto border border-dashed border-border rounded-lg">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            )}
+          </div>
 
           {qrCodeUrl && (
             <div className="flex gap-2 justify-center">
-              <Button onClick={downloadQRCode} variant="outline" className="gap-2">
+              <Button onClick={downloadQRCode} variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
                 {language === 'ar' ? 'تحميل' : 'Download'}
               </Button>
-              <Button onClick={shareQRCode} variant="outline" className="gap-2">
+              <Button onClick={shareQRCode} variant="outline" size="sm" className="gap-2">
                 <Share2 className="h-4 w-4" />
                 {language === 'ar' ? 'مشاركة' : 'Share'}
               </Button>
             </div>
           )}
-
-          <div className="text-xs text-muted-foreground text-center break-all">
-            {url}
-          </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </Card>
   );
 }

@@ -139,7 +139,7 @@ export function PhoneInput({
   };
 
   return (
-    <div className={cn("flex", className)}>
+    <div className={cn("flex", language === 'ar' ? 'flex-row-reverse' : '', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -147,8 +147,10 @@ export function PhoneInput({
             role="combobox"
             aria-expanded={open}
             className={cn(
-              "justify-between rounded-l-md rounded-r-none border-r-0 px-3 transition-enhanced hover-lift min-w-[110px]",
-              language === 'ar' ? "rounded-r-md rounded-l-none border-l-0" : ""
+              "justify-between px-3 transition-enhanced hover-lift min-w-[110px]",
+              language === 'ar' ? 
+                "rounded-l-md rounded-r-none border-l-0" : 
+                "rounded-r-md rounded-l-none border-r-0"
             )}
             disabled={disabled}
             data-testid="country-selector"
@@ -224,7 +226,7 @@ export function PhoneInput({
       <div className="relative flex-1">
         <div className={cn(
           "absolute inset-y-0 flex items-center pointer-events-none px-3 z-10",
-          language === 'ar' ? "right-0" : "left-0"
+          language === 'ar' ? "left-0" : "right-0"
         )}>
           <Phone className="h-4 w-4 text-muted-foreground" />
         </div>
@@ -234,8 +236,10 @@ export function PhoneInput({
           onChange={handlePhoneChange}
           placeholder={placeholder || (language === 'ar' ? '501234567' : '1234567890')}
           className={cn(
-            "rounded-r-md rounded-l-none transition-enhanced text-left",
-            language === 'ar' ? "rounded-l-md rounded-r-none pr-10" : "pl-10"
+            "transition-enhanced text-left",
+            language === 'ar' ? 
+              "rounded-r-md rounded-l-none pr-10" : 
+              "rounded-l-md rounded-r-none pl-10"
           )}
           dir="ltr"
           disabled={disabled}

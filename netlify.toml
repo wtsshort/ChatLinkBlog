@@ -1,9 +1,12 @@
 [build]
-  # Build command for the client
-  command = "cd client && npm run build"
+  # Build command for the entire application
+  command = "npm run build"
   
   # Directory to publish (frontend build files)
   publish = "dist/public"
+  
+  # Functions directory
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "20"

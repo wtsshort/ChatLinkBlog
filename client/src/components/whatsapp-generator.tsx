@@ -74,11 +74,12 @@ export default function WhatsAppGenerator() {
       return response.json();
     },
     onSuccess: (data) => {
-      setGeneratedLink(data.generatedLink);
+      // عرض الرابط المختصر بدلاً من wa.me مباشرة
+      setGeneratedLink(data.shortUrl);
       setLinkId(data.id);
       toast({
         title: language === 'ar' ? 'تم إنشاء الرابط بنجاح!' : 'Link Generated Successfully!',
-        description: language === 'ar' ? 'تم إنشاء رابط واتساب الخاص بك.' : 'Your WhatsApp link has been created.',
+        description: language === 'ar' ? 'تم إنشاء رابط واتساب مختصر الخاص بك.' : 'Your short WhatsApp link has been created.',
       });
       queryClient.invalidateQueries({ queryKey: ['/api/whatsapp-links'] });
       queryClient.invalidateQueries({ queryKey: ['/api/stats'] });

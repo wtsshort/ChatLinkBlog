@@ -7,6 +7,7 @@ import { requireAuth, loginAdmin, logoutAdmin, checkAuth } from "./auth";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+
   // WhatsApp Link Routes
   app.post("/api/whatsapp-links", async (req, res) => {
     try {
@@ -235,6 +236,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error generating image:", error);
       res.status(500).json({ message: "Failed to generate image" });
+    }
+  });
+
+  // Short URL redirect endpoint with /s/ prefix
+  app.get("/s/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      
+      const link = await storage.getWhatsappLinkBySlug(slug);
+      if (!link) {
+        return res.status(404).json({ message: "Link not found" });
+      }
+      
+      // تسجيل النقرة
+      await storage.incrementClickCount(link.id);
+      
+      // التحويل إلى واتساب
+      res.redirect(302, link.generatedLink);
+    } catch (error) {
+      console.error("Error redirecting short URL:", error);
+      res.status(500).json({ message: "Server error" });
     }
   });
 

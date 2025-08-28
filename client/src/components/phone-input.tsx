@@ -139,22 +139,23 @@ export function PhoneInput({
   };
 
   return (
-    <div className={cn("flex", language === 'ar' ? 'flex-row-reverse' : '', className)}>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className={cn(
-              "justify-between px-3 transition-enhanced hover-lift min-w-[110px]",
-              language === 'ar' ? 
-                "rounded-l-md rounded-r-none border-l-0" : 
-                "rounded-r-md rounded-l-none border-r-0"
-            )}
-            disabled={disabled}
-            data-testid="country-selector"
-          >
+    <div className={cn("flex", className)}>
+      <div className={cn("order-1", language === 'ar' ? 'order-2' : '')}>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className={cn(
+                "justify-between px-3 transition-enhanced hover-lift min-w-[110px] h-10",
+                language === 'ar' ? 
+                  "rounded-l-md rounded-r-none border-l-0" : 
+                  "rounded-r-md rounded-l-none border-r-0"
+              )}
+              disabled={disabled}
+              data-testid="country-selector"
+            >
             <div className="flex items-center gap-2">
               <div className="relative flex-shrink-0">
                 <img 
@@ -222,8 +223,9 @@ export function PhoneInput({
           </Command>
         </PopoverContent>
       </Popover>
+      </div>
       
-      <div className="relative flex-1">
+      <div className={cn("relative flex-1 order-2", language === 'ar' ? 'order-1' : '')}>
         <div className={cn(
           "absolute inset-y-0 flex items-center pointer-events-none px-3 z-10",
           language === 'ar' ? "right-0" : "left-0"
@@ -236,7 +238,7 @@ export function PhoneInput({
           onChange={handlePhoneChange}
           placeholder={placeholder || (language === 'ar' ? '501234567' : '1234567890')}
           className={cn(
-            "transition-enhanced text-left",
+            "transition-enhanced text-left h-10",
             language === 'ar' ? 
               "rounded-r-md rounded-l-none pl-10" : 
               "rounded-l-md rounded-r-none pr-10"

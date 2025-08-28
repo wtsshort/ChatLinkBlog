@@ -126,7 +126,7 @@ export default function TermsPage() {
                   لأي استفسارات حول هذه الشروط، يرجى التواصل معنا عبر:
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground mt-4 space-y-2">
-                  <li>واتساب: +966501234567</li>
+                  <li>واتساب: +966590965110</li>
                   <li>البريد الإلكتروني: info@wtsshort.com</li>
                 </ul>
               </section>
@@ -222,7 +222,7 @@ export default function TermsPage() {
                   For any inquiries about these terms, please contact us via:
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground mt-4 space-y-2">
-                  <li>WhatsApp: +966501234567</li>
+                  <li>WhatsApp: +966590965110</li>
                   <li>Email: info@wtsshort.com</li>
                 </ul>
               </section>

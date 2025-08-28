@@ -226,7 +226,7 @@ export function PhoneInput({
       <div className="relative flex-1">
         <div className={cn(
           "absolute inset-y-0 flex items-center pointer-events-none px-3 z-10",
-          language === 'ar' ? "left-0" : "right-0"
+          language === 'ar' ? "right-0" : "left-0"
         )}>
           <Phone className="h-4 w-4 text-muted-foreground" />
         </div>
@@ -238,8 +238,8 @@ export function PhoneInput({
           className={cn(
             "transition-enhanced text-left",
             language === 'ar' ? 
-              "rounded-r-md rounded-l-none pr-10" : 
-              "rounded-l-md rounded-r-none pl-10"
+              "rounded-r-md rounded-l-none pl-10" : 
+              "rounded-l-md rounded-r-none pr-10"
           )}
           dir="ltr"
           disabled={disabled}

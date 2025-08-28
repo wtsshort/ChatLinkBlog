@@ -13,6 +13,8 @@ export default function Navbar() {
 
   const navItems = [
     { path: "/", label: t("nav.home") },
+    { path: "/solutions", label: language === 'ar' ? 'الحلول' : 'Solutions' },
+    { path: "/pricing", label: language === 'ar' ? 'الأسعار' : 'Pricing' },
     { path: "/blog", label: t("nav.blog") },
     { path: "/faq", label: language === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
     { path: "/terms", label: language === 'ar' ? 'الشروط والأحكام' : 'Terms' },

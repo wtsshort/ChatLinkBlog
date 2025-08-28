@@ -20,9 +20,8 @@ export default function Navbar() {
     { path: "/dashboard", label: t("nav.dashboard") },
   ];
   
-  // إخفاء رابط لوحة التحكم إذا لم يكن مصرحاً
-  const isAdmin = localStorage.getItem('admin_token');
-  const visibleNavItems = isAdmin ? navItems : navItems.filter(item => item.path !== '/dashboard');
+  // لوحة التحكم مخفية - يمكن الوصول إليها فقط عبر /admin مباشرة
+  const visibleNavItems = navItems.filter(item => item.path !== '/dashboard');
 
   return (
     <nav className={`bg-card border-b border-border sticky top-0 z-40 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -90,20 +89,6 @@ export default function Navbar() {
                     </span>
                   </Link>
                 ))}
-                {isAdmin && (
-                  <Link href="/admin">
-                    <span
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer hover:bg-muted ${
-                        location === '/admin'
-                          ? "text-foreground"
-                          : "text-muted-foreground hover:text-primary"
-                      }`}
-                      data-testid="nav-admin"
-                    >
-                      {language === 'ar' ? 'الإدارة' : 'Admin'}
-                    </span>
-                  </Link>
-                )}
               </div>
             </div>
           </div>
@@ -143,21 +128,6 @@ export default function Navbar() {
                   </span>
                 </Link>
               ))}
-              {isAdmin && (
-                <Link href="/admin">
-                  <span
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer ${
-                      location === '/admin'
-                        ? "text-foreground bg-muted"
-                        : "text-muted-foreground hover:text-primary hover:bg-muted"
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    data-testid="mobile-nav-admin"
-                  >
-                    {language === 'ar' ? 'الإدارة' : 'Admin'}
-                  </span>
-                </Link>
-              )}
             </div>
           </div>
         )}

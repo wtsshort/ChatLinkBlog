@@ -127,7 +127,7 @@ export default function TermsPage() {
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground mt-4 space-y-2">
                   <li>واتساب: +966590965110</li>
-                  <li>البريد الإلكتروني: info@wtsshort.com</li>
+                  <li>البريد الإلكتروني: wtsshort@gmail.com</li>
                 </ul>
               </section>
             </div>
@@ -223,7 +223,7 @@ export default function TermsPage() {
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground mt-4 space-y-2">
                   <li>WhatsApp: +966590965110</li>
-                  <li>Email: info@wtsshort.com</li>
+                  <li>Email: wtsshort@gmail.com</li>
                 </ul>
               </section>
             </div>

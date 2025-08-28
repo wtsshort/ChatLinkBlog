@@ -51,8 +51,8 @@ export default function DashboardStats() {
       icon: FileText,
       label: language === 'ar' ? 'منشورات المدونة' : 'Blog Posts',
       value: stats?.totalPosts || 0,
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-500/10',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-500/10',
     },
     {
       icon: Eye,

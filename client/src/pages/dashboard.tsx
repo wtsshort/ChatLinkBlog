@@ -403,7 +403,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-4 py-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm text-foreground">
                         {language === 'ar' ? 'تم نشر منشور: "دليل تسويق واتساب"' : 'Blog post published: "WhatsApp Marketing Guide"'}

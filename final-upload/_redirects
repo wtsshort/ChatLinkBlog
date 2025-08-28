@@ -1,0 +1,4 @@
+/api/* /.netlify/functions/api 200
+/s/hello https://wa.me/966501234567?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B 302
+/s/store https://wa.me/966509876543?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B 302
+/* /index.html 200

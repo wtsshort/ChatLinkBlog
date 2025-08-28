@@ -60,7 +60,7 @@ export default function Footer() {
                 {language === 'ar' ? 'الوصول لواجهة برمجة التطبيقات' : 'API Access'}
               </a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                {language === 'ar' ? 'التسعير' : 'Pricing'}
+                {language === 'ar' ? 'الحلول' : 'Solutions'}
               </a></li>
             </ul>
           </div>

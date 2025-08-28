@@ -53,17 +53,31 @@ export default function Home() {
               {language === 'ar' ? 'عبر واتساب' : 'via WhatsApp'}
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
               {language === 'ar' 
-                ? 'منصة شاملة لإنشاء وإدارة وتحليل روابط واتساب الاحترافية. مصممة للشركات الطموحة التي تريد التميز في التواصل الرقمي.'
-                : 'The complete platform for creating, managing, and analyzing professional WhatsApp links. Built for ambitious businesses that want to excel in digital communication.'
+                ? 'منصة شاملة ومجانية لإنشاء وإدارة وتحليل روابط واتساب الاحترافية. مصممة للجميع لتسهيل التواصل الرقمي.'
+                : 'The complete FREE platform for creating, managing, and analyzing professional WhatsApp links. Built for everyone to simplify digital communication.'
               }
             </p>
+
+            <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-6 mb-12 border border-green-200 dark:border-green-800">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <CheckCircle className="h-5 w-5 text-white" />
+                </div>
+                <p className="text-lg font-semibold text-green-800 dark:text-green-200">
+                  {language === 'ar' 
+                    ? '🎉 مجاني بالكامل! جميع الميزات متاحة للجميع بدون أي تكلفة'
+                    : '🎉 Completely Free! All features available to everyone at no cost'
+                  }
+                </p>
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Button size="lg" className="btn-gradient hover-lift text-lg px-8 py-4">
                 <Zap className="h-5 w-5 mr-2" />
-                {language === 'ar' ? 'ابدأ مجاناً الآن' : 'Start Free Now'}
+                {language === 'ar' ? 'ابدأ مجاناً - للأبد!' : 'Start Free Forever!'}
               </Button>
               <Button size="lg" variant="outline" className="hover-lift text-lg px-8 py-4">
                 <Star className="h-5 w-5 mr-2" />
@@ -75,15 +89,19 @@ export default function Home() {
             <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500" />
-                {language === 'ar' ? 'مجاني للبدء' : 'Free to start'}
+                {language === 'ar' ? 'مجاني 100%' : '100% Free'}
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500" />
-                {language === 'ar' ? 'بدون بطاقة ائتمان' : 'No credit card'}
+                {language === 'ar' ? 'بدون حدود' : 'No Limits'}
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500" />
-                {language === 'ar' ? 'إعداد في دقائق' : 'Setup in minutes'}
+                {language === 'ar' ? 'بدون بطاقة ائتمان' : 'No Credit Card'}
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                {language === 'ar' ? 'إعداد فوري' : 'Instant Setup'}
               </div>
             </div>
           </div>

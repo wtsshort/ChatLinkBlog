@@ -11,11 +11,22 @@ export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
+  options?: { headers?: Record<string, string> }
 ): Promise<Response> {
+  const isBodyMethod = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
+  
+  const headers: Record<string, string> = {
+    ...options?.headers,
+  };
+  
+  if (isBodyMethod && data) {
+    headers["Content-Type"] = "application/json";
+  }
+  
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
+    headers,
+    body: isBodyMethod && data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
 

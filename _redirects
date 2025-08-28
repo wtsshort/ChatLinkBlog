@@ -1,0 +1,23 @@
+# Netlify redirects file for WTSSHORT
+
+# Single Page Application - redirect all routes to index.html
+/*    /index.html   200
+
+# Handle API routes (if using Netlify Functions)
+/api/*  /.netlify/functions/api/:splat  200
+
+# Handle short URL redirects
+/s/*  /.netlify/functions/redirect  302
+
+# Handle specific pages with proper redirects
+/blog/*  /index.html  200
+/admin  /index.html  200
+/dashboard  /index.html  200
+/privacy  /index.html  200
+/terms  /index.html  200
+/faq  /index.html  200
+/solutions  /index.html  200
+
+# Force HTTPS
+http://wtsshort.netlify.app/*  https://wtsshort.netlify.app/:splat  301!
+http://www.wtsshort.netlify.app/*  https://wtsshort.netlify.app/:splat  301!

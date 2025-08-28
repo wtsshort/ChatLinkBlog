@@ -138,11 +138,14 @@ export default function WhatsAppGenerator() {
 
   return (
     <div className={`max-w-2xl mx-auto ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-      <Card className="shadow-sm border border-border">
-        <CardHeader>
-          <CardTitle className="text-2xl font-semibold text-center">
+      <Card className="card-interactive hover-lift shadow-lg border-2 border-border/50 hover:border-primary/30 transition-all duration-500">
+        <CardHeader className="bg-gradient-to-r from-primary/5 via-transparent to-accent/5 rounded-t-xl">
+          <CardTitle className="text-3xl font-bold text-center gradient-text mb-2">
             {language === 'ar' ? 'أنشئ رابط واتساب الخاص بك' : 'Create Your WhatsApp Link'}
           </CardTitle>
+          <p className="text-center text-muted-foreground text-sm">
+            {language === 'ar' ? 'أسرع طريقة لإنشاء روابط واتساب احترافية' : 'The fastest way to create professional WhatsApp links'}
+          </p>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -206,15 +209,26 @@ export default function WhatsAppGenerator() {
 
               <Button 
                 type="submit" 
-                className="w-full" 
+                className="w-full btn-gradient hover-lift text-white font-semibold py-3 px-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70"
                 disabled={createLinkMutation.isPending}
                 data-testid="generate-button"
               >
-                <Link className="mr-2 h-4 w-4" />
-                {createLinkMutation.isPending 
-                  ? (language === 'ar' ? 'جاري الإنشاء...' : 'Generating...') 
-                  : (language === 'ar' ? 'إنشاء رابط واتساب' : 'Generate WhatsApp Link')
-                }
+                {createLinkMutation.isPending ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="loading-dots">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <span>{language === 'ar' ? 'جاري الإنشاء...' : 'Generating...'}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-2">
+                    <Link className="h-5 w-5" />
+                    <span>{language === 'ar' ? 'إنشاء رابط واتساب' : 'Generate WhatsApp Link'}</span>
+                  </div>
+                )}
               </Button>
             </form>
           </Form>
@@ -222,22 +236,26 @@ export default function WhatsAppGenerator() {
           {generatedLink && (
             <div className="mt-6 space-y-4">
               {/* Generated Link */}
-              <div className="p-4 bg-accent/10 rounded-lg border border-accent/20" data-testid="generated-link">
-                <div className="space-y-3">
-                  <label className="block text-sm font-medium text-foreground">
-                    {language === 'ar' ? 'رابط واتساب الخاص بك:' : 'Your WhatsApp Link:'}
-                  </label>
-                  <div className="flex items-center space-x-2">
+              <div className="p-6 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 rounded-xl border-2 border-green-200 dark:border-green-700/50 card-interactive" data-testid="generated-link">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <label className="text-lg font-semibold gradient-text">
+                      {language === 'ar' ? '🎉 رابط واتساب الخاص بك جاهز!' : '🎉 Your WhatsApp Link is Ready!'}
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2 gap-2">
                     <Input
                       value={generatedLink}
                       readOnly
-                      className="flex-1 bg-background"
+                      className="flex-1 bg-white/80 dark:bg-black/40 border-green-300 dark:border-green-600 font-mono text-sm"
                       data-testid="generated-link-input"
                     />
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={copyToClipboard}
+                      className="hover-lift border-green-300 hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/50"
                       data-testid="copy-button"
                     >
                       <Copy className="h-4 w-4" />
@@ -246,30 +264,37 @@ export default function WhatsAppGenerator() {
                       variant="outline"
                       size="icon"
                       onClick={shareLink}
+                      className="hover-lift border-green-300 hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/50"
                       data-testid="share-button"
                     >
                       <Share className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                    <span>0 {language === 'ar' ? 'نقرة مُتتبعة' : 'clicks tracked'}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-sm text-green-700 dark:text-green-300">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-ping"></div>
+                      <span className="font-medium">0 {language === 'ar' ? 'نقرة مُتتبعة' : 'clicks tracked'}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+                      <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
+                      <span>{language === 'ar' ? 'نشط الآن' : 'Live now'}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* QR Code and Analytics */}
               <Tabs defaultValue="qr" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="qr" className="flex items-center gap-2">
+                <TabsList className="grid w-full grid-cols-3 bg-gradient-to-r from-slate-100 via-white to-slate-100 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 p-1 rounded-xl shadow-inner">
+                  <TabsTrigger value="qr" className="flex items-center gap-2 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover-lift">
                     <QrCode className="h-4 w-4" />
                     {language === 'ar' ? 'رمز QR' : 'QR Code'}
                   </TabsTrigger>
-                  <TabsTrigger value="analytics" className="flex items-center gap-2">
+                  <TabsTrigger value="analytics" className="flex items-center gap-2 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover-lift">
                     <BarChart3 className="h-4 w-4" />
                     {language === 'ar' ? 'التحليلات' : 'Analytics'}
                   </TabsTrigger>
-                  <TabsTrigger value="sharing" className="flex items-center gap-2">
+                  <TabsTrigger value="sharing" className="flex items-center gap-2 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg hover-lift">
                     <Share className="h-4 w-4" />
                     {language === 'ar' ? 'المشاركة' : 'Sharing'}
                   </TabsTrigger>

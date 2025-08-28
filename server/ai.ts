@@ -349,3 +349,34 @@ export async function generateImagePrompt(articleTitle: string, language: string
     return 'Professional, high-quality, modern illustration';
   }
 }
+
+// دالة لإنشاء صورة للمقال باستخدام AI
+export async function generateArticleImage(prompt: string, title: string = 'article'): Promise<string> {
+  try {
+    // تنظيف العنوان لاستخدامه في اسم الملف
+    const cleanTitle = title
+      .toLowerCase()
+      .replace(/[^\u0600-\u06FFa-z0-9\s]/g, '')
+      .replace(/\s+/g, '-')
+      .substring(0, 50) || 'article';
+    
+    const imagePath = `attached_assets/generated_images/${cleanTitle}_${Date.now()}.png`;
+    
+    // إنشاء الصورة باستخدام Replit's image generation
+    // هذه عبارة عن placeholder - سيتم استبدالها بالرابط الفعلي للصورة المُولَّدة
+    
+    // في الوقت الحالي، نعيد رابط placeholder
+    const placeholderImageUrl = `https://via.placeholder.com/800x400/4f46e5/ffffff?text=${encodeURIComponent(cleanTitle)}`;
+    
+    console.log(`Generated image for: ${title}`);
+    console.log(`Image prompt: ${prompt}`);
+    console.log(`Placeholder URL: ${placeholderImageUrl}`);
+    
+    return placeholderImageUrl;
+    
+  } catch (error) {
+    console.error('Error generating article image:', error);
+    // إرجاع صورة افتراضية في حالة الفشل
+    return 'https://via.placeholder.com/800x400/6366f1/ffffff?text=Article+Image';
+  }
+}

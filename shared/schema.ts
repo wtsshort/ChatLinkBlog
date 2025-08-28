@@ -46,6 +46,20 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
   views: true,
   createdAt: true,
   updatedAt: true,
+}).extend({
+  // جعل جميع حقول SEO اختيارية مع حدود مناسبة
+  metaTitle: z.string().max(70).optional(),
+  metaDescription: z.string().max(160).optional(),
+  keywords: z.string().optional(),
+  ogTitle: z.string().max(70).optional(),
+  ogDescription: z.string().max(160).optional(),
+  focusKeyword: z.string().max(100).optional(),
+  author: z.string().max(100).optional(),
+  category: z.string().max(50).optional(),
+  excerpt: z.string().optional(),
+  featuredImage: z.string().optional(),
+  readingTime: z.number().optional(),
+  language: z.string().max(5).optional(),
 });
 
 export type InsertWhatsappLink = z.infer<typeof insertWhatsappLinkSchema>;

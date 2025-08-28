@@ -2,6 +2,7 @@ import WhatsAppGenerator from "@/components/whatsapp-generator";
 import { useLanguage } from "@/hooks/use-language";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { SEOHead } from "@/components/seo-head";
 import { 
   Zap, 
   BarChart3, 
@@ -23,14 +24,84 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
-  const { language } = useLanguage();
+  const { language, locationData } = useLanguage();
 
   const { data: stats } = useQuery({
     queryKey: ['/api/stats'],
   });
 
+  // SEO structured data for homepage
+  const homeStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "WTSSHORT",
+    "description": language === 'ar' 
+      ? "أنشئ روابط واتساب احترافية مع رسائل مخصصة مجاناً. مثالي للشركات ودعم العملاء والحملات التسويقية."
+      : "Create professional WhatsApp links with custom messages for free. Perfect for businesses, customer support, and marketing campaigns.",
+    "url": "https://wtsshort.com",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": (stats as any)?.totalLinks || "847392",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "interactionStatistic": [
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/UseAction",
+        "userInteractionCount": (stats as any)?.totalClicks || "2400000"
+      }
+    ],
+    "featureList": [
+      language === 'ar' ? "إنشاء روابط واتساب مجاني" : "Free WhatsApp link generation",
+      language === 'ar' ? "تحليلات متقدمة" : "Advanced analytics",
+      language === 'ar' ? "رموز QR" : "QR codes",
+      language === 'ar' ? "رسائل مخصصة" : "Custom messages",
+      language === 'ar' ? "واجهة سهلة الاستخدام" : "User-friendly interface"
+    ],
+    "provider": {
+      "@type": "Organization",
+      "name": "WTSSHORT",
+      "url": "https://wtsshort.com",
+      "logo": "https://wtsshort.com/logo.svg",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "availableLanguage": ["English", "Arabic"],
+        "areaServed": "Worldwide"
+      }
+    }
+  };
+
   return (
-    <div className={`${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <>
+      <SEOHead
+        title={language === 'ar' 
+          ? "WTSSHORT - مولد روابط واتساب المجاني | أنشئ روابط واتساب مخصصة فوراً"
+          : "WTSSHORT - Free WhatsApp Link Generator | Create Custom WhatsApp Links Instantly"
+        }
+        description={language === 'ar'
+          ? "أنشئ روابط واتساب احترافية مع رسائل مخصصة مجاناً. مثالي للشركات ودعم العملاء والحملات التسويقية. تحليلات متقدمة ورموز QR مدمجة."
+          : "Create professional WhatsApp links with custom messages for free. Perfect for businesses, customer support, and marketing campaigns. Advanced analytics and QR codes included."
+        }
+        keywords={language === 'ar'
+          ? "مولد روابط واتساب، رابط واتساب مجاني، واتساب للأعمال، تسويق واتساب، دعم العملاء واتساب، رموز QR واتساب، تحليلات واتساب، أدوات واتساب"
+          : "WhatsApp link generator, free WhatsApp link, WhatsApp business, WhatsApp marketing, WhatsApp customer support, WhatsApp QR codes, WhatsApp analytics, WhatsApp tools"
+        }
+        canonical="https://wtsshort.com"
+        ogImage="https://wtsshort.com/og-image-home.jpg"
+        structuredData={homeStructuredData}
+      />
+      <div className={`${language === 'ar' ? 'rtl' : 'ltr'}`}>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         {/* Background with animated gradient */}
@@ -275,7 +346,7 @@ export default function Home() {
                 <Zap className="h-6 w-6 text-white" />
               </div>
               <div className="text-3xl md:text-4xl font-bold gradient-text">
-                {stats?.totalLinks?.toLocaleString() || '847,392'}
+                {(stats as any)?.totalLinks?.toLocaleString() || '847,392'}
               </div>
               <div className="text-muted-foreground mt-1 text-sm">
                 {language === 'ar' ? 'روابط ذكية مُنشأة' : 'Smart Links Created'}
@@ -287,7 +358,7 @@ export default function Home() {
                 <Users className="h-6 w-6 text-white" />
               </div>
               <div className="text-3xl md:text-4xl font-bold gradient-text">
-                {stats?.totalClicks?.toLocaleString() || '2.4M'}
+                {(stats as any)?.totalClicks?.toLocaleString() || '2.4M'}
               </div>
               <div className="text-muted-foreground mt-1 text-sm">
                 {language === 'ar' ? 'نقرات ناجحة' : 'Successful Clicks'}
@@ -415,5 +486,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </>
   );
 }

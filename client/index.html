@@ -57,8 +57,18 @@
     <!-- Optimized Fonts for Performance -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Favicon -->
+    <!-- Favicon and PWA icons -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzI1RDM2NiIvPgo8cGF0aCBkPSJNOCAxNkMxNi4yIDggMjMuOCAxNC40IDI0IDE2UzE2IDI0IDggMTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#25D366">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="WTSSHORT">\n    
+    <!-- Performance optimizations -->
+    <link rel="preload" href="/api/stats" as="fetch" crossorigin>
+    <link rel="prefetch" href="/blog">
+    <link rel="prefetch" href="/solutions">\n
   </head>
   <body>
     <div id="root"></div>

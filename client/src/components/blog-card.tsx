@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { type BlogPost } from "@shared/schema";
 import { useLanguage } from "@/hooks/use-language";
+import { Link } from "wouter";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -51,13 +52,13 @@ export default function BlogCard({ post }: BlogCardProps) {
             <div className="w-8 h-8 bg-muted rounded-full"></div>
             <span className="text-sm text-muted-foreground">{post.author}</span>
           </div>
-          <a 
+          <Link 
             href={`/blog/${post.slug}`} 
             className="text-primary hover:text-primary/80 font-medium text-sm"
             data-testid={`read-more-${post.slug}`}
           >
             {language === 'ar' ? 'اقرأ المزيد ←' : 'Read More →'}
-          </a>
+          </Link>
         </div>
       </CardContent>
     </Card>

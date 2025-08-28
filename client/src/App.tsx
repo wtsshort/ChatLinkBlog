@@ -13,12 +13,14 @@ import Dashboard from "@/pages/dashboard";
 import AdminLogin from "@/pages/admin-login";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
+import BlogPost from "@/pages/blog-post";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/admin-login" component={AdminLogin} />
       <Route path="/admin" component={Admin} />

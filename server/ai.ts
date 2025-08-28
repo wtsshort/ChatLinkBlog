@@ -50,7 +50,7 @@ export async function generateArticleWithGroq(topic: string, language: string = 
           content: prompt,
         },
       ],
-      model: "llama-3.1-70b-versatile", // أفضل نموذج للنصوص الطويلة
+      model: "llama-3.1-8b-instant", // نموذج سريع ومتاح
       temperature: 0.7,
       max_tokens: 4000,
     });
@@ -365,12 +365,36 @@ export async function generateArticleImage(prompt: string, title: string = 'arti
     // إنشاء الصورة باستخدام Replit's image generation
     // هذه عبارة عن placeholder - سيتم استبدالها بالرابط الفعلي للصورة المُولَّدة
     
-    // في الوقت الحالي، نعيد رابط placeholder
-    const placeholderImageUrl = `https://via.placeholder.com/800x400/4f46e5/ffffff?text=${encodeURIComponent(cleanTitle)}`;
+    // محاولة إنشاء صورة حقيقية بـ Gemini
+    try {
+      const imageResponse = await genAI.models.generateContent({
+        model: 'gemini-2.0-flash-preview-image-generation',
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        config: { responseModalities: ['TEXT', 'IMAGE'] }
+      });
+      
+      const candidates = imageResponse.candidates;
+      if (candidates && candidates.length > 0) {
+        const content = candidates[0].content;
+        if (content && content.parts) {
+          for (const part of content.parts) {
+            if (part.inlineData && part.inlineData.data) {
+              // استخدام الصورة المُولدة
+              console.log(`Generated real image for: ${title}`);
+              return `data:image/png;base64,${part.inlineData.data}`;
+            }
+          }
+        }
+      }
+    } catch (imageError: any) {
+      console.log('Gemini image generation failed:', imageError?.message || 'Unknown error');
+    }
     
-    console.log(`Generated image for: ${title}`);
-    console.log(`Image prompt: ${prompt}`);
-    console.log(`Placeholder URL: ${placeholderImageUrl}`);
+    // استخدام صورة placeholder جميلة من Picsum
+    const placeholderImageUrl = `https://picsum.photos/800/400?random=${Date.now()}&blur=1`;
+    
+    console.log(`Using placeholder image for: ${title}`);
+    console.log(`Image prompt was: ${prompt}`);
     
     return placeholderImageUrl;
     

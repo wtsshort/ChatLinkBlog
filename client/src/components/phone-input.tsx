@@ -240,8 +240,8 @@ export function PhoneInput({
           className={cn(
             "transition-enhanced text-left h-10",
             language === 'ar' ? 
-              "rounded-r-md rounded-l-none pl-10" : 
-              "rounded-l-md rounded-r-none pr-10"
+              "rounded-r-md rounded-l-none pr-10" : 
+              "rounded-l-md rounded-r-none pl-10"
           )}
           dir="ltr"
           disabled={disabled}

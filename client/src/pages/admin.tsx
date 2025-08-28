@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { apiRequest } from "@/lib/queryClient";
-import { Sparkles, FileText, Eye, Edit, Trash2, LogOut, Save, Wand2, TrendingUp, Loader2 } from "lucide-react";
+import { Sparkles, FileText, Eye, Edit, Trash2, LogOut, Save, Wand2, TrendingUp, Loader2, Shield } from "lucide-react";
 import { useLocation } from "wouter";
 import DashboardStats from "@/components/dashboard-stats";
 import { type BlogPost } from "@shared/schema";
@@ -52,33 +52,32 @@ export default function AdminPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("generate");
   const [generatedArticle, setGeneratedArticle] = useState<any>(null);
+  const [adminPassword, setAdminPassword] = useState("");
 
   // التحقق من المصادقة
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      setLocation('/admin-login');
-      return;
+    const isAdmin = localStorage.getItem('isAdmin');
+    if (isAdmin === 'true') {
+      setIsAuthenticated(true);
     }
-    
-    // التحقق من صحة التوكن
-    apiRequest('GET', '/api/admin/check', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.authenticated) {
-        setIsAuthenticated(true);
-      } else {
-        localStorage.removeItem('admin_token');
-        setLocation('/admin-login');
-      }
-    })
-    .catch(() => {
-      localStorage.removeItem('admin_token');
-      setLocation('/admin-login');
-    });
-  }, [setLocation]);
+  }, []);
+
+  const handleLogin = () => {
+    if (adminPassword === 'admin123') {
+      localStorage.setItem('isAdmin', 'true');
+      setIsAuthenticated(true);
+      toast({
+        title: language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login Successful',
+        description: language === 'ar' ? 'مرحباً بك في لوحة التحكم' : 'Welcome to admin panel',
+      });
+    } else {
+      toast({
+        title: language === 'ar' ? 'خطأ في كلمة المرور' : 'Password Error',
+        description: language === 'ar' ? 'كلمة المرور غير صحيحة' : 'Incorrect password',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const articleForm = useForm<ArticleFormData>({
     resolver: zodResolver(articleSchema),
@@ -243,7 +242,49 @@ export default function AdminPanel() {
   };
 
   if (!isAuthenticated) {
-    return <div className="min-h-screen flex items-center justify-center">تحميل...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center flex items-center justify-center gap-2">
+              <Shield className="h-6 w-6 text-primary" />
+              {language === 'ar' ? 'دخول لوحة التحكم' : 'Admin Login'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">
+                {language === 'ar' ? 'كلمة المرور' : 'Password'}
+              </label>
+              <Input
+                type="password"
+                placeholder={language === 'ar' ? 'ادخل كلمة المرور (admin123)' : 'Enter password (admin123)'}
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                data-testid="admin-password"
+              />
+            </div>
+            <Button 
+              onClick={handleLogin} 
+              className="w-full" 
+              data-testid="admin-login-btn"
+            >
+              {language === 'ar' ? 'تسجيل الدخول' : 'Login'}
+            </Button>
+            <div className="text-center">
+              <Button 
+                variant="ghost" 
+                onClick={() => setLocation('/')}
+                data-testid="back-home-btn"
+              >
+                {language === 'ar' ? 'العودة للصفحة الرئيسية' : 'Back to Home'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (

@@ -16,6 +16,10 @@ export default function Navbar() {
     { path: "/blog", label: t("nav.blog") },
     { path: "/dashboard", label: t("nav.dashboard") },
   ];
+  
+  // إخفاء رابط لوحة التحكم إذا لم يكن مصرحاً
+  const isAdmin = localStorage.getItem('admin_token');
+  const visibleNavItems = isAdmin ? navItems : navItems.filter(item => item.path !== '/dashboard');
 
   return (
     <nav className={`bg-card border-b border-border sticky top-0 z-40 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -29,7 +33,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block ml-10">
               <div className="flex items-baseline space-x-4">
-                {navItems.map((item) => (
+                {visibleNavItems.map((item) => (
                   <Link key={item.path} href={item.path}>
                     <a
                       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -43,6 +47,20 @@ export default function Navbar() {
                     </a>
                   </Link>
                 ))}
+                {isAdmin && (
+                  <Link href="/admin">
+                    <a
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        location === '/admin'
+                          ? "text-foreground"
+                          : "text-muted-foreground hover:text-primary"
+                      }`}
+                      data-testid="nav-admin"
+                    >
+                      {language === 'ar' ? 'الإدارة' : 'Admin'}
+                    </a>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -67,7 +85,7 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-border mt-2 pt-2 pb-3">
             <div className="flex flex-col space-y-1">
-              {navItems.map((item) => (
+              {visibleNavItems.map((item) => (
                 <Link key={item.path} href={item.path}>
                   <a
                     className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
@@ -82,6 +100,21 @@ export default function Navbar() {
                   </a>
                 </Link>
               ))}
+              {isAdmin && (
+                <Link href="/admin">
+                  <a
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                      location === '/admin'
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground hover:text-primary hover:bg-muted"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    data-testid="mobile-nav-admin"
+                  >
+                    {language === 'ar' ? 'الإدارة' : 'Admin'}
+                  </a>
+                </Link>
+              )}
             </div>
           </div>
         )}

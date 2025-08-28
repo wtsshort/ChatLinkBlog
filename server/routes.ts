@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertWhatsappLinkSchema, insertBlogPostSchema } from "@shared/schema";
+import { generateArticle, generateSEOData, generateImagePrompt } from "./ai";
+import { requireAuth, loginAdmin, logoutAdmin, checkAuth } from "./auth";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -119,6 +121,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching stats:", error);
       res.status(500).json({ message: "Failed to fetch stats" });
+    }
+  });
+
+  // Admin Authentication Routes
+  app.post("/api/admin/login", loginAdmin);
+  app.post("/api/admin/logout", logoutAdmin);
+  app.get("/api/admin/check", checkAuth);
+
+  // AI Article Generation Routes
+  app.post("/api/admin/generate-article", requireAuth, async (req, res) => {
+    try {
+      const { topic, language = 'ar' } = req.body;
+      
+      if (!topic) {
+        return res.status(400).json({ message: "Topic is required" });
+      }
+
+      // إنشاء المقال
+      const article = await generateArticle(topic, language);
+      
+      // إنشاء بيانات SEO
+      const seoData = await generateSEOData(article.content, language);
+      
+      // إنشاء وصف للصورة
+      const imagePrompt = await generateImagePrompt(article.title, language);
+      
+      // دمج البيانات
+      const fullArticle = {
+        ...article,
+        ...seoData,
+        featuredImagePrompt: imagePrompt,
+        language,
+        author: 'AI Assistant'
+      };
+      
+      res.json(fullArticle);
+      
+    } catch (error) {
+      console.error("Error generating article:", error);
+      res.status(500).json({ message: "Failed to generate article" });
+    }
+  });
+
+  // Protected Blog Management Routes
+  app.post("/api/admin/blog-posts", requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertBlogPostSchema.parse(req.body);
+      const post = await storage.createBlogPost(validatedData);
+      res.json(post);
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      res.status(400).json({ message: "Invalid post data" });
+    }
+  });
+
+  app.put("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = insertBlogPostSchema.partial().parse(req.body);
+      const post = await storage.updateBlogPost(id, validatedData);
+      res.json(post);
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      res.status(400).json({ message: "Invalid post data" });
+    }
+  });
+
+  app.delete("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteBlogPost(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      res.status(500).json({ message: "Failed to delete post" });
     }
   });
 

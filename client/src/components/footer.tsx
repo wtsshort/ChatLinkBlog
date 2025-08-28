@@ -74,13 +74,13 @@ export default function Footer() {
               {language === 'ar' ? 'الموارد' : 'Resources'}
             </h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <li><a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'المدونة' : 'Blog'}
               </a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'التوثيق' : 'Documentation'}
               </a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <li><a href="/faq" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'مركز المساعدة' : 'Help Center'}
               </a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
@@ -97,10 +97,10 @@ export default function Footer() {
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'حول' : 'About'}
               </a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <li><a href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
               </a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <li><a href="/terms" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                 {language === 'ar' ? 'شروط الخدمة' : 'Terms of Service'}
               </a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">

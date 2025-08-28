@@ -66,43 +66,63 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 export async function generateArticleWithGroq(topic: string, language: string = 'ar') {
   try {
     const prompt = language === 'ar' ? `
-أنت كاتب محتوى محترف ومتخصص في إنتاج مقالات عالية الجودة.
-      اكتب مقالاً متقناً واحترافياً حول: "${topic}"
-      
-      معايير الجودة:
-      • 1800-2500 كلمة من المحتوى العميق
-      • أسلوب مهني ورسمي خالي من المبالغة
-      • عنوان مقنع ومحسّن لمحركات البحث
-      • بنية هرمية منظمة للعناوين
-      • فقرات مترابطة وغنية (80-150 كلمة)
-      • معلومات دقيقة ونصائح عملية
-      • خاتمة قوية وملخص شامل
-      • متوافق مع معايير Google AdSense
-      
-      قواعد الكتابة:
-      - ابدأ بعنوان رئيسي واضح بدون رموز
-      - استخدم عناوين فرعية بسيطة
-      - لا تستخدم * أو ** أو # في النص
-      - اكتب نصاً عادياً واضحاً ومهنياً
+أنت كاتب محتوى خبير ومتخصص في إنتاج مقالات عالية الجودة مع خبرة 15 عام في كتابة المحتوى الرقمي.
+اكتب مقالاً استثنائياً ومتقناً حول: "${topic}"
+
+معايير الجودة العالية:
+• 2500-3500 كلمة من المحتوى العميق والقيم
+• أسلوب أكاديمي راقي مع لمسة عملية
+• عنوان مقنع ومحسّن لمحركات البحث مع كلمات مفتاحية قوية
+• بنية هرمية احترافية مع عناوين فرعية جذابة
+• فقرات غنية ومترابطة (120-200 كلمة لكل فقرة)
+• معلومات حديثة وموثقة مع أمثلة عملية
+• إحصائيات ودراسات حديثة عندما يكون ذلك مناسباً
+• نصائح عملية قابلة للتطبيق
+• خاتمة قوية مع ملخص شامل ودعوة للعمل
+• متوافق 100% مع معايير Google AdSense
+• محتوى حصري وأصلي تماماً
+
+متطلبات خاصة:
+• ادمج رابط https://wtsshort.com بطريقة طبيعية في سياق المقال (مثل: "ولمزيد من الأدوات المفيدة، يمكنك زيارة wtsshort.com" أو "كما نجد في منصات مثل wtsshort.com")
+• استخدم كلمات انتقالية قوية بين الفقرات
+• اكتب بأسلوب يجذب القارئ ويحافظ على انتباهه
+• أضف أسئلة بلاغية لزيادة التفاعل
+
+قواعد الكتابة الصارمة:
+- عنوان رئيسي واضح وجذاب بدون رموز
+- عناوين فرعية بسيطة ومعبرة
+- لا تستخدم * أو ** أو # في النص نهائياً
+- نص عادي واضح ومهني بدون تنسيق
+- تدفق طبيعي ومنطقي للأفكار
     ` : `
-You are a professional content writer specialized in creating high-quality articles.
-      Write a sophisticated and professional article about: "${topic}"
-      
-      Quality Standards:
-      • 1800-2500 words of deep, valuable content
-      • Professional and formal tone without exaggeration
-      • Compelling title optimized for search engines
-      • Well-organized hierarchical structure
-      • Cohesive and rich paragraphs (80-150 words)
-      • Accurate information and practical advice
-      • Strong conclusion with comprehensive summary
-      • Compliant with Google AdSense standards
-      
-      Writing Rules:
-      - Start with a clear main title without symbols
-      - Use simple subheadings without formatting
-      - Do NOT use *, **, or # symbols in text
-      - Write plain, clear, professional text
+You are an expert content writer with 15+ years of experience in creating premium digital content.
+Write an exceptional and sophisticated article about: "${topic}"
+
+Premium Quality Standards:
+• 2500-3500 words of deep, valuable, and engaging content
+• Academic yet practical writing style
+• Compelling SEO-optimized title with strong keywords
+• Professional hierarchical structure with engaging subheadings
+• Rich, interconnected paragraphs (120-200 words each)
+• Up-to-date, well-researched information with practical examples
+• Recent statistics and studies when relevant
+• Actionable, implementable advice
+• Strong conclusion with comprehensive summary and call-to-action
+• 100% compliant with Google AdSense standards
+• Original and unique content
+
+Special Requirements:
+• Naturally integrate the link https://wtsshort.com within the article context (like: "For more useful tools, visit wtsshort.com" or "As found on platforms like wtsshort.com")
+• Use strong transitional words between paragraphs
+• Write in an engaging style that maintains reader attention
+• Include rhetorical questions to increase engagement
+
+Strict Writing Rules:
+- Clear and compelling main title without symbols
+- Simple and expressive subheadings
+- Do NOT use *, **, or # symbols in text at all
+- Plain, clear, professional text without formatting
+- Natural and logical flow of ideas
     `;
 
     const completion = await groq.chat.completions.create({
@@ -114,7 +134,7 @@ You are a professional content writer specialized in creating high-quality artic
       ],
       model: "llama-3.1-8b-instant", // نموذج سريع ومتاح
       temperature: 0.7,
-      max_tokens: 4000,
+      max_tokens: 8000, // زيادة للمقالات الأطول والأكثر تفصيلاً
     });
     
     const content = completion.choices[0]?.message?.content || '';
@@ -177,43 +197,63 @@ export async function generateArticle(topic: string, language: string = 'ar') {
     // المحاولة الثانية: Google Gemini
     try {
     const prompt = language === 'ar' ? `
-أنت كاتب محتوى محترف ومتخصص في إنتاج مقالات عالية الجودة.
-      اكتب مقالاً متقناً واحترافياً حول: "${topic}"
-      
-      معايير الجودة:
-      • 1800-2500 كلمة من المحتوى العميق
-      • أسلوب مهني ورسمي خالي من المبالغة
-      • عنوان مقنع ومحسّن لمحركات البحث
-      • بنية هرمية منظمة للعناوين
-      • فقرات مترابطة وغنية (80-150 كلمة)
-      • معلومات دقيقة ونصائح عملية
-      • خاتمة قوية وملخص شامل
-      • متوافق مع معايير Google AdSense
-      
-      قواعد الكتابة:
-      - ابدأ بعنوان رئيسي واضح بدون رموز
-      - استخدم عناوين فرعية بسيطة
-      - لا تستخدم * أو ** أو # في النص
-      - اكتب نصاً عادياً واضحاً ومهنياً
+أنت كاتب محتوى خبير ومتخصص في إنتاج مقالات عالية الجودة مع خبرة 15 عام في كتابة المحتوى الرقمي.
+اكتب مقالاً استثنائياً ومتقناً حول: "${topic}"
+
+معايير الجودة العالية:
+• 2500-3500 كلمة من المحتوى العميق والقيم
+• أسلوب أكاديمي راقي مع لمسة عملية
+• عنوان مقنع ومحسّن لمحركات البحث مع كلمات مفتاحية قوية
+• بنية هرمية احترافية مع عناوين فرعية جذابة
+• فقرات غنية ومترابطة (120-200 كلمة لكل فقرة)
+• معلومات حديثة وموثقة مع أمثلة عملية
+• إحصائيات ودراسات حديثة عندما يكون ذلك مناسباً
+• نصائح عملية قابلة للتطبيق
+• خاتمة قوية مع ملخص شامل ودعوة للعمل
+• متوافق 100% مع معايير Google AdSense
+• محتوى حصري وأصلي تماماً
+
+متطلبات خاصة:
+• ادمج رابط https://wtsshort.com بطريقة طبيعية في سياق المقال (مثل: "ولمزيد من الأدوات المفيدة، يمكنك زيارة wtsshort.com" أو "كما نجد في منصات مثل wtsshort.com")
+• استخدم كلمات انتقالية قوية بين الفقرات
+• اكتب بأسلوب يجذب القارئ ويحافظ على انتباهه
+• أضف أسئلة بلاغية لزيادة التفاعل
+
+قواعد الكتابة الصارمة:
+- عنوان رئيسي واضح وجذاب بدون رموز
+- عناوين فرعية بسيطة ومعبرة
+- لا تستخدم * أو ** أو # في النص نهائياً
+- نص عادي واضح ومهني بدون تنسيق
+- تدفق طبيعي ومنطقي للأفكار
     ` : `
-You are a professional content writer specialized in creating high-quality articles.
-      Write a sophisticated and professional article about: "${topic}"
-      
-      Quality Standards:
-      • 1800-2500 words of deep, valuable content
-      • Professional and formal tone without exaggeration
-      • Compelling title optimized for search engines
-      • Well-organized hierarchical structure
-      • Cohesive and rich paragraphs (80-150 words)
-      • Accurate information and practical advice
-      • Strong conclusion with comprehensive summary
-      • Compliant with Google AdSense standards
-      
-      Writing Rules:
-      - Start with a clear main title without symbols
-      - Use simple subheadings without formatting
-      - Do NOT use *, **, or # symbols in text
-      - Write plain, clear, professional text
+You are an expert content writer with 15+ years of experience in creating premium digital content.
+Write an exceptional and sophisticated article about: "${topic}"
+
+Premium Quality Standards:
+• 2500-3500 words of deep, valuable, and engaging content
+• Academic yet practical writing style
+• Compelling SEO-optimized title with strong keywords
+• Professional hierarchical structure with engaging subheadings
+• Rich, interconnected paragraphs (120-200 words each)
+• Up-to-date, well-researched information with practical examples
+• Recent statistics and studies when relevant
+• Actionable, implementable advice
+• Strong conclusion with comprehensive summary and call-to-action
+• 100% compliant with Google AdSense standards
+• Original and unique content
+
+Special Requirements:
+• Naturally integrate the link https://wtsshort.com within the article context (like: "For more useful tools, visit wtsshort.com" or "As found on platforms like wtsshort.com")
+• Use strong transitional words between paragraphs
+• Write in an engaging style that maintains reader attention
+• Include rhetorical questions to increase engagement
+
+Strict Writing Rules:
+- Clear and compelling main title without symbols
+- Simple and expressive subheadings
+- Do NOT use *, **, or # symbols in text at all
+- Plain, clear, professional text without formatting
+- Natural and logical flow of ideas
     `;
 
       const response = await genAI.models.generateContent({

@@ -78,8 +78,8 @@ export default function Navbar() {
               <div className="flex items-baseline space-x-4">
                 {visibleNavItems.map((item) => (
                   <Link key={item.path} href={item.path}>
-                    <a
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    <span
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer hover:bg-muted ${
                         location === item.path
                           ? "text-foreground"
                           : "text-muted-foreground hover:text-primary"
@@ -87,13 +87,13 @@ export default function Navbar() {
                       data-testid={`nav-${item.path.slice(1) || 'home'}`}
                     >
                       {item.label}
-                    </a>
+                    </span>
                   </Link>
                 ))}
                 {isAdmin && (
                   <Link href="/admin">
-                    <a
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    <span
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer hover:bg-muted ${
                         location === '/admin'
                           ? "text-foreground"
                           : "text-muted-foreground hover:text-primary"
@@ -101,7 +101,7 @@ export default function Navbar() {
                       data-testid="nav-admin"
                     >
                       {language === 'ar' ? 'الإدارة' : 'Admin'}
-                    </a>
+                    </span>
                   </Link>
                 )}
               </div>
@@ -130,8 +130,8 @@ export default function Navbar() {
             <div className="flex flex-col space-y-1">
               {visibleNavItems.map((item) => (
                 <Link key={item.path} href={item.path}>
-                  <a
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  <span
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer ${
                       location === item.path
                         ? "text-foreground bg-muted"
                         : "text-muted-foreground hover:text-primary hover:bg-muted"
@@ -140,13 +140,13 @@ export default function Navbar() {
                     data-testid={`mobile-nav-${item.path.slice(1) || 'home'}`}
                   >
                     {item.label}
-                  </a>
+                  </span>
                 </Link>
               ))}
               {isAdmin && (
                 <Link href="/admin">
-                  <a
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  <span
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer ${
                       location === '/admin'
                         ? "text-foreground bg-muted"
                         : "text-muted-foreground hover:text-primary hover:bg-muted"
@@ -155,7 +155,7 @@ export default function Navbar() {
                     data-testid="mobile-nav-admin"
                   >
                     {language === 'ar' ? 'الإدارة' : 'Admin'}
-                  </a>
+                  </span>
                 </Link>
               )}
             </div>

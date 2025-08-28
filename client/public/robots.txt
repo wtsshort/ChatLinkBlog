@@ -1,0 +1,67 @@
+# Robots.txt for WTSSHORT - WhatsApp Link Generator
+
+User-agent: *
+Allow: /
+
+# High priority pages
+Allow: /
+Allow: /blog/
+Allow: /solutions/
+Allow: /faq/
+
+# Administrative areas - restricted
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# System files
+Disallow: /*.json$
+Disallow: /*.xml$ 
+Disallow: /src/
+Disallow: /node_modules/
+
+# Crawl delay for better server performance
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://wtsshort.com/sitemap.xml
+
+# Search engine specific rules
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: bingbot
+Allow: /
+Crawl-delay: 1
+
+# Arabic search engines
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Block bad bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

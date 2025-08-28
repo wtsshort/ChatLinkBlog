@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { type BlogPost } from "@shared/schema";
+import { SEOHead } from "@/components/seo-head";
 
 export default function Blog() {
   const { language } = useLanguage();
@@ -51,8 +52,68 @@ export default function Blog() {
     },
   ];
 
+  // SEO structured data for blog page
+  const blogStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": language === 'ar' ? "مدونة WTSSHORT" : "WTSSHORT Blog",
+    "description": language === 'ar'
+      ? "نصائح وبرامج تعليمية ورؤى حول تسويق واتساب والتواصل الرقمي الاحترافي"
+      : "Tips, tutorials, and insights about WhatsApp marketing and professional digital communication",
+    "url": "https://wtsshort.com/blog",
+    "author": {
+      "@type": "Organization",
+      "name": "WTSSHORT",
+      "url": "https://wtsshort.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "WTSSHORT",
+      "logo": "https://wtsshort.com/logo.svg"
+    },
+    "blogPost": filteredPosts.map(post => ({
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": post.excerpt,
+      "url": `https://wtsshort.com/blog/${post.slug}`,
+      "datePublished": (post as any).publishedAt || post.createdAt,
+      "author": {
+        "@type": "Person",
+        "name": "WTSSHORT Team"
+      }
+    })),
+    "numberOfItems": filteredPosts.length,
+    "itemListElement": filteredPosts.map((post, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "url": `https://wtsshort.com/blog/${post.slug}`
+      }
+    }))
+  };
+
   return (
-    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <>
+      <SEOHead
+        title={language === 'ar' 
+          ? "مدونة WTSSHORT | نصائح وإرشادات تسويق واتساب وأدوات التواصل الرقمي"
+          : "WTSSHORT Blog | WhatsApp Marketing Tips & Digital Communication Tools Guide"
+        }
+        description={language === 'ar'
+          ? "اكتشف أحدث نصائح تسويق واتساب، إرشادات استخدام أدوات التواصل الرقمي، وخبرات احترافية لتحسين استراتيجيات التواصل مع العملاء."
+          : "Discover the latest WhatsApp marketing tips, digital communication tools guides, and professional insights to enhance your customer communication strategies."
+        }
+        keywords={language === 'ar'
+          ? "مدونة واتساب، تسويق واتساب، نصائح واتساب، أدوات تواصل، استراتيجيات تسويق، دعم العملاء، أتمتة واتساب، تحليلات واتساب"
+          : "WhatsApp blog, WhatsApp marketing, WhatsApp tips, communication tools, marketing strategies, customer support, WhatsApp automation, WhatsApp analytics"
+        }
+        canonical="https://wtsshort.com/blog"
+        ogImage="https://wtsshort.com/og-image-blog.jpg"
+        structuredData={blogStructuredData}
+      />
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
       {/* Blog Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -174,5 +235,6 @@ export default function Blog() {
         </div>
       </div>
     </div>
+    </>
   );
 }

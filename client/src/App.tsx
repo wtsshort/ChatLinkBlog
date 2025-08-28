@@ -15,6 +15,8 @@ import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 import BlogPost from "@/pages/blog-post";
 import Analytics from "@/pages/analytics";
+import FAQ from "@/pages/faq";
+import Terms from "@/pages/terms";
 
 function Router() {
   return (
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/admin-login" component={AdminLogin} />
       <Route path="/admin" component={Admin} />
       <Route path="/analytics" component={Analytics} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/terms" component={Terms} />
       <Route component={NotFound} />
     </Switch>
   );

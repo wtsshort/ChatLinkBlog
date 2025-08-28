@@ -8,39 +8,43 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 export async function generateArticleWithGroq(topic: string, language: string = 'ar') {
   try {
     const prompt = language === 'ar' ? `
-      اكتب مقالاً شاملاً وعالي الجودة حول موضوع: "${topic}"
+أنت كاتب محتوى محترف ومتخصص في إنتاج مقالات عالية الجودة.
+      اكتب مقالاً متقناً واحترافياً حول: "${topic}"
       
-      المطلوب:
-      1. مقال من 1500-2000 كلمة
-      2. تحسين محركات البحث SEO
-      3. العنوان الرئيسي جذاب ومحسن للبحث
-      4. عناوين فرعية H2, H3 منظمة
-      5. فقرات متوسطة الطول (50-100 كلمة لكل فقرة)
-      6. استخدام الكلمات المفتاحية بشكل طبيعي
-      7. محتوى مفيد وقيم للقارئ
-      8. خاتمة تلخص النقاط الرئيسية
-      9. تجنب المحتوى المكرر
-      10. مناسب لـ Google AdSense
+      معايير الجودة:
+      • 1800-2500 كلمة من المحتوى العميق
+      • أسلوب مهني ورسمي خالي من المبالغة
+      • عنوان مقنع ومحسّن لمحركات البحث
+      • بنية هرمية منظمة للعناوين
+      • فقرات مترابطة وغنية (80-150 كلمة)
+      • معلومات دقيقة ونصائح عملية
+      • خاتمة قوية وملخص شامل
+      • متوافق مع معايير Google AdSense
       
-      اكتب بصيغة مارك داون مع عناوين واضحة.
-      ابدأ بالعنوان الرئيسي بـ #، ثم العناوين الفرعية بـ ## و ###
+      قواعد الكتابة:
+      - ابدأ بعنوان رئيسي واضح بدون رموز
+      - استخدم عناوين فرعية بسيطة
+      - لا تستخدم * أو ** أو # في النص
+      - اكتب نصاً عادياً واضحاً ومهنياً
     ` : `
-      Write a comprehensive, high-quality article about: "${topic}"
+You are a professional content writer specialized in creating high-quality articles.
+      Write a sophisticated and professional article about: "${topic}"
       
-      Requirements:
-      1. 1500-2000 words article
-      2. SEO optimized content
-      3. Catchy main title optimized for search
-      4. Well-structured H2, H3 headings
-      5. Medium-length paragraphs (50-100 words each)
-      6. Natural keyword usage
-      7. Valuable and useful content for readers
-      8. Conclusion summarizing main points
-      9. Avoid duplicate content
-      10. Google AdSense friendly
+      Quality Standards:
+      • 1800-2500 words of deep, valuable content
+      • Professional and formal tone without exaggeration
+      • Compelling title optimized for search engines
+      • Well-organized hierarchical structure
+      • Cohesive and rich paragraphs (80-150 words)
+      • Accurate information and practical advice
+      • Strong conclusion with comprehensive summary
+      • Compliant with Google AdSense standards
       
-      Write in Markdown format with clear headings.
-      Start with main title using #, then subheadings with ## and ###
+      Writing Rules:
+      - Start with a clear main title without symbols
+      - Use simple subheadings without formatting
+      - Do NOT use *, **, or # symbols in text
+      - Write plain, clear, professional text
     `;
 
     const completion = await groq.chat.completions.create({
@@ -57,25 +61,40 @@ export async function generateArticleWithGroq(topic: string, language: string = 
     
     const content = completion.choices[0]?.message?.content || '';
     
-    // استخراج العنوان من المحتوى
-    const titleMatch = content.match(/^# (.+)$/m);
-    const title = titleMatch ? titleMatch[1] : topic;
+    // تنظيف واستخراج العنوان
+    let title = topic;
+    const lines = content.split('\n').filter(line => line.trim());
+    if (lines.length > 0) {
+      const firstLine = lines[0].trim();
+      title = firstLine.replace(/^#+\s*/, '').replace(/\*+/g, '').trim() || topic;
+    }
+    
+    // تنظيف المحتوى من علامات markdown
+    const cleanContent = content
+      .replace(/#{1,6}\s*/g, '') // إزالة # من العناوين
+      .replace(/\*\*(.+?)\*\*/g, '$1') // إزالة **bold**
+      .replace(/\*(.+?)\*/g, '$1') // إزالة *italic*
+      .replace(/\n\s*\n\s*\n/g, '\n\n') // تنظيف الأسطر الزائدة
+      .trim();
     
     // إنشاء slug من العنوان
     const slug = title
       .toLowerCase()
-      .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '') // السماح بالعربية والإنجليزية والأرقام
+      .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
     
-    // استخراج المقدمة كملخص
-    const paragraphs = content.split('\n').filter((p: string) => p.trim() && !p.startsWith('#'));
+    // استخراج المقدمة وتنظيفها
+    const paragraphs = cleanContent.split('\n').filter((p: string) => {
+      const clean = p.trim();
+      return clean && clean.length > 20; // فقرات ذات معنى
+    });
     const excerpt = paragraphs[0] ? paragraphs[0].substring(0, 160) + '...' : '';
     
     return {
       title,
-      content,
+      content: cleanContent,
       excerpt,
       slug: slug || `article-${Date.now()}`,
       category: language === 'ar' ? 'مقالات عامة' : 'General Articles',
@@ -100,39 +119,43 @@ export async function generateArticle(topic: string, language: string = 'ar') {
     // المحاولة الثانية: Google Gemini
     try {
     const prompt = language === 'ar' ? `
-      اكتب مقالاً شاملاً وعالي الجودة حول موضوع: "${topic}"
+أنت كاتب محتوى محترف ومتخصص في إنتاج مقالات عالية الجودة.
+      اكتب مقالاً متقناً واحترافياً حول: "${topic}"
       
-      المطلوب:
-      1. مقال من 1500-2000 كلمة
-      2. تحسين محركات البحث SEO
-      3. العنوان الرئيسي جذاب ومحسن للبحث
-      4. عناوين فرعية H2, H3 منظمة
-      5. فقرات متوسطة الطول (50-100 كلمة لكل فقرة)
-      6. استخدام الكلمات المفتاحية بشكل طبيعي
-      7. محتوى مفيد وقيم للقارئ
-      8. خاتمة تلخص النقاط الرئيسية
-      9. تجنب المحتوى المكرر
-      10. مناسب لـ Google AdSense
+      معايير الجودة:
+      • 1800-2500 كلمة من المحتوى العميق
+      • أسلوب مهني ورسمي خالي من المبالغة
+      • عنوان مقنع ومحسّن لمحركات البحث
+      • بنية هرمية منظمة للعناوين
+      • فقرات مترابطة وغنية (80-150 كلمة)
+      • معلومات دقيقة ونصائح عملية
+      • خاتمة قوية وملخص شامل
+      • متوافق مع معايير Google AdSense
       
-      اكتب بصيغة مارك داون مع عناوين واضحة.
-      ابدأ بالعنوان الرئيسي بـ #، ثم العناوين الفرعية بـ ## و ###
+      قواعد الكتابة:
+      - ابدأ بعنوان رئيسي واضح بدون رموز
+      - استخدم عناوين فرعية بسيطة
+      - لا تستخدم * أو ** أو # في النص
+      - اكتب نصاً عادياً واضحاً ومهنياً
     ` : `
-      Write a comprehensive, high-quality article about: "${topic}"
+You are a professional content writer specialized in creating high-quality articles.
+      Write a sophisticated and professional article about: "${topic}"
       
-      Requirements:
-      1. 1500-2000 words article
-      2. SEO optimized content
-      3. Catchy main title optimized for search
-      4. Well-structured H2, H3 headings
-      5. Medium-length paragraphs (50-100 words each)
-      6. Natural keyword usage
-      7. Valuable and useful content for readers
-      8. Conclusion summarizing main points
-      9. Avoid duplicate content
-      10. Google AdSense friendly
+      Quality Standards:
+      • 1800-2500 words of deep, valuable content
+      • Professional and formal tone without exaggeration
+      • Compelling title optimized for search engines
+      • Well-organized hierarchical structure
+      • Cohesive and rich paragraphs (80-150 words)
+      • Accurate information and practical advice
+      • Strong conclusion with comprehensive summary
+      • Compliant with Google AdSense standards
       
-      Write in Markdown format with clear headings.
-      Start with main title using #, then subheadings with ## and ###
+      Writing Rules:
+      - Start with a clear main title without symbols
+      - Use simple subheadings without formatting
+      - Do NOT use *, **, or # symbols in text
+      - Write plain, clear, professional text
     `;
 
       const response = await genAI.models.generateContent({
@@ -142,25 +165,40 @@ export async function generateArticle(topic: string, language: string = 'ar') {
     
     const content = response.text || '';
     
-    // استخراج العنوان من المحتوى
-    const titleMatch = content.match(/^# (.+)$/m);
-    const title = titleMatch ? titleMatch[1] : topic;
+    // تنظيف واستخراج العنوان
+    let title = topic;
+    const lines = content.split('\n').filter(line => line.trim());
+    if (lines.length > 0) {
+      const firstLine = lines[0].trim();
+      title = firstLine.replace(/^#+\s*/, '').replace(/\*+/g, '').trim() || topic;
+    }
+    
+    // تنظيف المحتوى من علامات markdown
+    const cleanContent = content
+      .replace(/#{1,6}\s*/g, '') // إزالة # من العناوين
+      .replace(/\*\*(.+?)\*\*/g, '$1') // إزالة **bold**
+      .replace(/\*(.+?)\*/g, '$1') // إزالة *italic*
+      .replace(/\n\s*\n\s*\n/g, '\n\n') // تنظيف الأسطر الزائدة
+      .trim();
     
     // إنشاء slug من العنوان
     const slug = title
       .toLowerCase()
-      .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '') // السماح بالعربية والإنجليزية والأرقام
+      .replace(/[^\u0600-\u06FFa-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
     
-    // استخراج المقدمة كملخص
-    const paragraphs = content.split('\n').filter((p: string) => p.trim() && !p.startsWith('#'));
+    // استخراج المقدمة وتنظيفها
+    const paragraphs = cleanContent.split('\n').filter((p: string) => {
+      const clean = p.trim();
+      return clean && clean.length > 20; // فقرات ذات معنى
+    });
     const excerpt = paragraphs[0] ? paragraphs[0].substring(0, 160) + '...' : '';
     
       return {
         title,
-        content,
+        content: cleanContent,
         excerpt,
         slug: slug || `article-${Date.now()}`,
         category: language === 'ar' ? 'مقالات عامة' : 'General Articles',

@@ -14,7 +14,6 @@ export default function Navbar() {
   const navItems = [
     { path: "/", label: t("nav.home") },
     { path: "/blog", label: t("nav.blog") },
-    { path: "/analytics", label: language === 'ar' ? 'تحليلات' : 'Analytics' },
     { path: "/faq", label: language === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
     { path: "/terms", label: language === 'ar' ? 'الشروط والأحكام' : 'Terms' },
     { path: "/dashboard", label: t("nav.dashboard") },

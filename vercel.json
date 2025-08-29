@@ -2,25 +2,58 @@
   "version": 2,
   "builds": [
     {
-      "src": "client/**/*",
+      "src": "dist/public/**/*",
       "use": "@vercel/static"
-    },
-    {
-      "src": "server/index.ts",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/server/index.ts"
+      "src": "/api/stats",
+      "dest": "/api/stats.js"
+    },
+    {
+      "src": "/api/whatsapp-links",
+      "dest": "/api/whatsapp-links/index.js"
+    },
+    {
+      "src": "/api/whatsapp-links/(.*)",
+      "dest": "/api/whatsapp-links/[id].js"
+    },
+    {
+      "src": "/api/blog-posts",
+      "dest": "/api/blog-posts/index.js"
+    },
+    {
+      "src": "/api/admin/login",
+      "dest": "/api/admin/login.js"
+    },
+    {
+      "src": "/api/admin/check", 
+      "dest": "/api/admin/check.js"
+    },
+    {
+      "src": "/api/admin/trending-topic",
+      "dest": "/api/admin/trending-topic.js"
+    },
+    {
+      "src": "/api/admin/generate-article",
+      "dest": "/api/admin/generate-article.js"
+    },
+    {
+      "src": "/s/(.*)",
+      "dest": "/api/s/[slug].js"
     },
     {
       "src": "/(.*)",
-      "dest": "/client/index.html"
+      "dest": "/dist/public/$1"
     }
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    }
   }
 }
